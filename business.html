@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Loans - Interest Rate Comparison</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 25px;
+            padding: 10px 15px;
+            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.2);
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background: #f3e5f5;
+            border: none;
+            border-radius: 20px;
+            color: #6a1b9a;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn:hover {
+            background: #e1bee7;
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: #9C27B0;
+            color: white;
+        }
+        
+        .card-container {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid #f3e5f5;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(156, 39, 176, 0.25);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f3e5f5;
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-icon i {
+            font-size: 32px;
+            color: white;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            color: #6a1b9a;
+            font-weight: 700;
+            flex-grow: 1;
+        }
+        
+        .card-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        /* Bank Comparison Section */
+        .comparison-section {
+            margin: 30px 0;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6a1b9a;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1bee7;
+        }
+        
+        .section-title i {
+            color: #9C27B0;
+        }
+        
+        .bank-comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .bank-comparison-table th {
+            background: linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .bank-comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .bank-comparison-table tr:nth-child(even) {
+            background-color: #f9f0ff;
+        }
+        
+        .bank-comparison-table tr:hover {
+            background-color: #f3e5f5;
+        }
+        
+        .bank-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .bank-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .interest-rate {
+            font-weight: 700;
+            color: #6a1b9a;
+            font-size: 1.1rem;
+        }
+        
+        .rate-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .lowest-rate {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .best-rate {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        /* Instructions Section */
+        .instructions-section {
+            background: linear-gradient(135deg, #f9f0ff 0%, #f3e5f5 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .instructions-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6a1b9a;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .instructions-title i {
+            color: #9C27B0;
+        }
+        
+        .instructions-list {
+            list-style: none;
+            padding-left: 10px;
+        }
+        
+        .instruction-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #d1c4e9;
+        }
+        
+        .instruction-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .instruction-step {
+            width: 35px;
+            height: 35px;
+            background: #9C27B0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .instruction-content h4 {
+            color: #6a1b9a;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .instruction-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Stats Section */
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f9f0ff 0%, #f3e5f5 100%);
+            border-radius: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #9C27B0;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-switcher {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .card-container {
+                margin-top: 0;
+            }
+            
+            .bank-comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .card-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .instruction-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        /* Tooltip for interest rates */
+        .interest-tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .interest-tooltip::after {
+            content: 'Annual Percentage Rate (APR)';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .interest-tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: 120%;
+        }
+        
+        .info-icon {
+            color: #9C27B0;
+            margin-left: 5px;
+            cursor: help;
+            font-size: 0.9rem;
+        }
+        
+        /* Language-specific styles */
+        .hindi-text {
+            font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+        }
+        
+        .tamil-text {
+            font-family: 'Segoe UI', 'Noto Sans Tamil', sans-serif; 
+        }
+        
+        .telugu-text {
+            font-family: 'Segoe UI', 'Noto Sans Telugu', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">
+            <i class="fas fa-globe"></i> English
+        </button>
+        <button class="lang-btn" data-lang="hi">
+            <i class="fas fa-globe"></i> हिन्दी
+        </button>
+        <button class="lang-btn" data-lang="te">
+            <i class="fas fa-globe"></i> తెలుగు
+        </button>
+    </div>
+    
+    <div class="card-container">
+        <div class="feature-card" id="business-loan-card">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Multilingual Content Database
+        const loanContent = {
+            en: {
+                title: "Business Loans Comparison for Women Entrepreneurs",
+                description: "Compare interest rates from leading banks offering special schemes for women entrepreneurs. Find the best option for your business needs.",
+                comparisonTitle: "Bank Interest Rate Comparison",
+                tableHeaders: ["Bank", "Interest Rate", "Processing Fee", "Max Loan Amount", "Special Features"],
+                banks: [
+                    {
+                        name: "State Bank of India",
+                        code: "SBI",
+                        color: "#d32f2f",
+                        rate: "9.2%",
+                        rateBadge: "Lowest",
+                        badgeClass: "lowest-rate",
+                        fee: "0.5%",
+                        maxAmount: "₹10 Lakhs",
+                        features: "Collateral-free up to ₹5L"
+                    },
+                    {
+                        name: "HDFC Bank",
+                        code: "HDFC",
+                        color: "#00796b",
+                        rate: "9.8%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "0.75%",
+                        maxAmount: "₹15 Lakhs",
+                        features: "Quick online approval"
+                    },
+                    {
+                        name: "ICICI Bank",
+                        code: "ICICI",
+                        color: "#f57c00",
+                        rate: "10.2%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "1%",
+                        maxAmount: "₹20 Lakhs",
+                        features: "Flexible repayment"
+                    },
+                    {
+                        name: "Punjab National Bank",
+                        code: "PNB",
+                        color: "#5d4037",
+                        rate: "9.5%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "0.5%",
+                        maxAmount: "₹8 Lakhs",
+                        features: "Subsidy available"
+                    },
+                    {
+                        name: "Axis Bank",
+                        code: "AXIS",
+                        color: "#0288d1",
+                        rate: "10.5%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "1.25%",
+                        maxAmount: "₹25 Lakhs",
+                        features: "Higher loan amount"
+                    },
+                    {
+                        name: "StreeShakti Finance",
+                        code: "SSF",
+                        color: "#7b1fa2",
+                        rate: "8.5%",
+                        rateBadge: "Best Rate",
+                        badgeClass: "best-rate",
+                        fee: "0%",
+                        maxAmount: "₹5 Lakhs",
+                        features: "Zero processing fee"
+                    }
+                ],
+                instructions: {
+                    title: "How to Apply for a Business Loan",
+                    steps: [
+                        {
+                            step: "1",
+                            title: "Compare & Choose",
+                            description: "Review the interest rates and features above. Consider factors like processing fees, maximum loan amount, and special benefits for women entrepreneurs."
+                        },
+                        {
+                            step: "2",
+                            title: "Check Eligibility",
+                            description: "Ensure you meet the bank's requirements: Minimum business vintage (usually 2-3 years), annual turnover, and credit score (650+ recommended)."
+                        },
+                        {
+                            step: "3",
+                            title: "Prepare Documents",
+                            description: "Have these documents ready: Business registration proof, PAN card, Aadhaar, address proof, last 2 years' financial statements, and business plan."
+                        },
+                        {
+                            step: "4",
+                            title: "Visit Bank Branch",
+                            description: "Visit your chosen bank's nearest branch with your documents. Ask specifically for their 'Women Entrepreneur Loan Scheme' for special benefits."
+                        },
+                        {
+                            step: "5",
+                            title: "Follow Up",
+                            description: "Track your application status and respond promptly to any additional information requests from the bank."
+                        }
+                    ]
+                },
+                stats: [
+                    { value: "7-10 Days", label: "Average Processing Time" },
+                    { value: "0.5-1.5%", label: "Processing Fee Range" },
+                    { value: "90%", label: "Approval Rate for Women" }
+                ],
+                tips: {
+                    title: "Important Tips for Women Entrepreneurs",
+                    items: [
+                        {
+                            icon: "fas fa-percentage",
+                            title: "Negotiate Your Rate",
+                            description: "Many banks offer negotiable interest rates for women entrepreneurs. Don't hesitate to ask for a better rate based on your credit profile."
+                        },
+                        {
+                            icon: "fas fa-file-invoice",
+                            title: "Check for Subsidies",
+                            description: "Government schemes like Mudra Loan and CGTMSE offer interest subsidies for women-owned businesses. Ask your bank about these."
+                        },
+                        {
+                            icon: "fas fa-shield-alt",
+                            title: "Read Fine Print",
+                            description: "Check for hidden charges like prepayment penalties, late payment fees, and insurance charges before signing any agreement."
+                        }
+                    ]
+                }
+            },
+            hi: {
+                title: "महिला उद्यमियों के लिए व्यापार ऋण तुलना",
+                description: "महिला उद्यमियों के लिए विशेष योजनाएं पेश करने वाले प्रमुख बैंकों की ब्याज दरों की तुलना करें। अपनी व्यवसायिक आवश्यकताओं के लिए सर्वोत्तम विकल्प खोजें।",
+                comparisonTitle: "बैंक ब्याज दर तुलना",
+                tableHeaders: ["बैंक", "ब्याज दर", "प्रोसेसिंग शुल्क", "अधिकतम ऋण राशि", "विशेष सुविधाएँ"],
+                banks: [
+                    {
+                        name: "स्टेट बैंक ऑफ इंडिया",
+                        code: "SBI",
+                        color: "#d32f2f",
+                        rate: "9.2%",
+                        rateBadge: "सबसे कम",
+                        badgeClass: "lowest-rate",
+                        fee: "0.5%",
+                        maxAmount: "₹10 लाख",
+                        features: "₹5 लाख तक संपार्श्विक मुक्त"
+                    },
+                    {
+                        name: "एचडीएफसी बैंक",
+                        code: "HDFC",
+                        color: "#00796b",
+                        rate: "9.8%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "0.75%",
+                        maxAmount: "₹15 लाख",
+                        features: "त्वरित ऑनलाइन स्वीकृति"
+                    },
+                    {
+                        name: "आईसीआईसीआई बैंक",
+                        code: "ICICI",
+                        color: "#f57c00",
+                        rate: "10.2%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "1%",
+                        maxAmount: "₹20 लाख",
+                        features: "लचीली चुकौती"
+                    },
+                    {
+                        name: "पंजाब नेशनल बैंक",
+                        code: "PNB",
+                        color: "#5d4037",
+                        rate: "9.5%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "0.5%",
+                        maxAmount: "₹8 लाख",
+                        features: "सब्सिडी उपलब्ध"
+                    },
+                    {
+                        name: "एक्सिस बैंक",
+                        code: "AXIS",
+                        color: "#0288d1",
+                        rate: "10.5%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "1.25%",
+                        maxAmount: "₹25 लाख",
+                        features: "उच्च ऋण राशि"
+                    },
+                    {
+                        name: "स्त्रीशक्ति वित्त",
+                        code: "SSF",
+                        color: "#7b1fa2",
+                        rate: "8.5%",
+                        rateBadge: "सर्वोत्तम दर",
+                        badgeClass: "best-rate",
+                        fee: "0%",
+                        maxAmount: "₹5 लाख",
+                        features: "शून्य प्रोसेसिंग शुल्क"
+                    }
+                ],
+                instructions: {
+                    title: "व्यापार ऋण के लिए आवेदन कैसे करें",
+                    steps: [
+                        {
+                            step: "1",
+                            title: "तुलना करें और चुनें",
+                            description: "उपरोक्त ब्याज दरों और सुविधाओं की समीक्षा करें। प्रोसेसिंग शुल्क, अधिकतम ऋण राशि और महिला उद्यमियों के लिए विशेष लाभों जैसे कारकों पर विचार करें।"
+                        },
+                        {
+                            step: "2",
+                            title: "योग्यता जांचें",
+                            description: "सुनिश्चित करें कि आप बैंक की आवश्यकताओं को पूरा करते हैं: न्यूनतम व्यवसाय समय (आमतौर पर 2-3 वर्ष), वार्षिक टर्नओवर और क्रेडिट स्कोर (650+ अनुशंसित)।"
+                        },
+                        {
+                            step: "3",
+                            title: "दस्तावेज़ तैयार करें",
+                            description: "ये दस्तावेज़ तैयार रखें: व्यवसाय पंजीकरण प्रमाण, पैन कार्ड, आधार, पता प्रमाण, पिछले 2 वर्षों के वित्तीय विवरण और व्यवसाय योजना।"
+                        },
+                        {
+                            step: "4",
+                            title: "बैंक शाखा पर जाएँ",
+                            description: "अपने दस्तावेज़ों के साथ अपने चुने हुए बैंक की निकटतम शाखा पर जाएँ। विशेष लाभों के लिए विशेष रूप से उनकी 'महिला उद्यमी ऋण योजना' के बारे में पूछें।"
+                        },
+                        {
+                            step: "5",
+                            title: "फॉलो अप करें",
+                            description: "अपने आवेदन की स्थिति को ट्रैक करें और बैंक से किसी भी अतिरिक्त सूचना अनुरोध का तुरंत जवाब दें।"
+                        }
+                    ]
+                },
+                stats: [
+                    { value: "7-10 दिन", label: "औसत प्रोसेसिंग समय" },
+                    { value: "0.5-1.5%", label: "प्रोसेसिंग शुल्क सीमा" },
+                    { value: "90%", label: "महिलाओं के लिए स्वीकृति दर" }
+                ],
+                tips: {
+                    title: "महिला उद्यमियों के लिए महत्वपूर्ण सुझाव",
+                    items: [
+                        {
+                            icon: "fas fa-percentage",
+                            title: "अपनी दर पर बातचीत करें",
+                            description: "कई बैंक महिला उद्यमियों के लिए बातचीत योग्य ब्याज दरें प्रदान करते हैं। अपने क्रेडिट प्रोफाइल के आधार पर बेहतर दर के लिए पूछने में संकोच न करें।"
+                        },
+                        {
+                            icon: "fas fa-file-invoice",
+                            title: "सब्सिडी की जांच करें",
+                            description: "मुद्रा ऋण और CGTMSE जैसी सरकारी योजनाएं महिला-स्वामित्व वाले व्यवसायों के लिए ब्याज सब्सिडी प्रदान करती हैं। इनके बारे में अपने बैंक से पूछें।"
+                        },
+                        {
+                            icon: "fas fa-shield-alt",
+                            title: "सूक्ष्म लिखावट पढ़ें",
+                            description: "किसी भी समझौते पर हस्ताक्षर करने से पहले प्रीपेमेंट जुर्माना, विलंब शुल्क और बीमा शुल्क जैसे छिपे हुए शुल्कों की जांच करें।"
+                        }
+                    ]
+                }
+            },
+            te: {
+                title: "మహిళా వ్యవస్థాపకులకు వ్యాపార రుణాల పోలిక",
+                description: "మహిళా వ్యవస్థాపకులకు ప్రత్యేక పథకాలు అందించే ప్రముఖ బ్యాంకుల వడ్డీ రేట్లను సరిపోల్చండి. మీ వ్యాపార అవసరాలకు అత్యుత్తమ ఎంపికను కనుగొనండి.",
+                comparisonTitle: "బ్యాంక్ వడ్డీ రేటు పోలిక",
+                tableHeaders: ["బ్యాంక్", "వడ్డీ రేటు", "ప్రాసెసింగ్ ఫీజు", "గరిష్ఠ రుణ మొత్తం", "ప్రత్యేక లక్షణాలు"],
+                banks: [
+                    {
+                        name: "స్టేట్ బ్యాంక్ ఆఫ్ ఇండియా",
+                        code: "SBI",
+                        color: "#d32f2f",
+                        rate: "9.2%",
+                        rateBadge: "తక్కువ",
+                        badgeClass: "lowest-rate",
+                        fee: "0.5%",
+                        maxAmount: "₹10 లక్షలు",
+                        features: "₹5 లక్షల వరకు ఈడుపుగా లేదు"
+                    },
+                    {
+                        name: "HDFC బ్యాంక్",
+                        code: "HDFC",
+                        color: "#00796b",
+                        rate: "9.8%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "0.75%",
+                        maxAmount: "₹15 లక్షలు",
+                        features: "వేగవంతమైన ఆన్లైన్ ఆమోదం"
+                    },
+                    {
+                        name: "ఐసిఐసిఐ బ్యాంక్",
+                        code: "ICICI",
+                        color: "#f57c00",
+                        rate: "10.2%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "1%",
+                        maxAmount: "₹20 లక్షలు",
+                        features: "రాబడి తిరిగి చెల్లింపు"
+                    },
+                    {
+                        name: "పంజాబ్ నేషనల్ బ్యాంక్",
+                        code: "PNB",
+                        color: "#5d4037",
+                        rate: "9.5%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "0.5%",
+                        maxAmount: "₹8 లక్షలు",
+                        features: "సబ్సిడీ లభ్యం"
+                    },
+                    {
+                        name: "అక్సిస్ బ్యాంక్",
+                        code: "AXIS",
+                        color: "#0288d1",
+                        rate: "10.5%",
+                        rateBadge: "",
+                        badgeClass: "",
+                        fee: "1.25%",
+                        maxAmount: "₹25 లక్షలు",
+                        features: "ఎక్కువ రుణ మొత్తం"
+                    },
+                    {
+                        name: "స్త్రీశక్తి ఫైనాన్స్",
+                        code: "SSF",
+                        color: "#7b1fa2",
+                        rate: "8.5%",
+                        rateBadge: "ఉత్తమ రేటు",
+                        badgeClass: "best-rate",
+                        fee: "0%",
+                        maxAmount: "₹5 లక్షలు",
+                        features: "సున్నా ప్రాసెసింగ్ ఫీజు"
+                    }
+                ],
+                instructions: {
+                    title: "వ్యాపార రుణం కోసం దరఖాస్తు చేసే విధానం",
+                    steps: [
+                        {
+                            step: "1",
+                            title: "సరిపోల్చండి మరియు ఎంచుకోండి",
+                            description: "పైన ఉన్న వడ్డీ రేట్లు మరియు లక్షణాలను సమీక్షించండి. ప్రాసెసింగ్ ఫీజు, గరిష్ఠ రుణ మొత్తం మరియు మహిళా వ్యవస్థాపకులకు ప్రత్యేక ప్రయోజనాలు వంటి అంశాలను పరిగణించండి."
+                        },
+                        {
+                            step: "2",
+                            title: "అర్హతను తనిఖీ చేయండి",
+                            description: "మీరు బ్యాంక్ అవసరాలను తీరుస్తున్నారని నిర్ధారించుకోండి: కనీస వ్యాపార వయస్సు (సాధారణంగా 2-3 సంవత్సరాలు), వార్షిక టర్నోవర్ మరియు క్రెడిట్ స్కోరు (650+ సిఫార్సు చేయబడింది)."
+                        },
+                        {
+                            step: "3",
+                            title: "పత్రాలను సిద్ధం చేయండి",
+                            description: "ఈ పత్రాలు సిద్ధంగా ఉంచండి: వ్యాపార నమోదు రుజువు, PAN కార్డు, ఆధార్, చిరునామా రుజువు, గత 2 సంవత్సరాల ఆర్థిక నివేదికలు మరియు వ్యాపార ప్రణాళిక."
+                        },
+                        {
+                            step: "4",
+                            title: "బ్యాంక్ శాఖను సందర్శించండి",
+                            description: "మీ పత్రాలతో మీరు ఎంచుకున్న బ్యాంక్ యొక్క సమీప శాఖకు వెళ్లండి. ప్రత్యేక ప్రయోజనాల కోసం వారి 'మహిళా వ్యవస్థాపకుల రుణ పథకం' గురించి ప్రత్యేకంగా అడగండి."
+                        },
+                        {
+                            step: "5",
+                            title: "ఫాలో అప్ చేయండి",
+                            description: "మీ దరఖాస్తు స్థితిని ట్రాక్ చేయండి మరియు బ్యాంక్ నుండి ఏదైనా అదనపు సమాచార అభ్యర్థనలకు వెంటనే ప్రతిస్పందించండి."
+                        }
+                    ]
+                },
+                stats: [
+                    { value: "7-10 రోజులు", label: "సగటు ప్రాసెసింగ్ సమయం" },
+                    { value: "0.5-1.5%", label: "ప్రాసెసింగ్ ఫీజు పరిధి" },
+                    { value: "90%", label: "మహిళలకు ఆమోదం రేటు" }
+                ],
+                tips: {
+                    title: "మహిళా వ్యవస్థాపకులకు ముఖ్యమైన చిట్కాలు",
+                    items: [
+                        {
+                            icon: "fas fa-percentage",
+                            title: "మీ రేటును బేరం చేయండి",
+                            description: "చాలా బ్యాంకులు మహిళా వ్యవస్థాపకులకు బేరం చేయదగిన వడ్డీ రేట్లను అందిస్తాయి. మీ క్రెడిట్ ప్రొఫైల్ ఆధారంగా మెరుగైన రేటు కోసం అడగడానికి సంకోచించకండి."
+                        },
+                        {
+                            icon: "fas fa-file-invoice",
+                            title: "సబ్సిడీల కోసం తనిఖీ చేయండి",
+                            description: "ముద్రా రుణం మరియు CGTMSE వంటి ప్రభుత్వ పథకాలు మహిళా యాజమాన్య వ్యాపారాలకు వడ్డీ సబ్సిడీలను అందిస్తాయి. ఇవి మీ బ్యాంక్ నుండి అడగండి."
+                        },
+                        {
+                            icon: "fas fa-shield-alt",
+                            title: "చిన్న అక్షరాలను చదవండి",
+                            description: "ఏదైనా ఒప్పందంపై సంతకం చేయడానికి ముందు, ముందస్తు చెల్లింపు పెనాల్టీలు, ఆలస్య చెల్లింపు ఛార్జీలు మరియు ఇన్సూరెన్స్ ఛార్జీలు వంటి దాచిన ఛార్జీలను తనిఖీ చేయండి."
+                        }
+                    ]
+                }
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'en';
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLanguageSwitcher();
+            renderCard(currentLanguage);
+        });
+
+        // Initialize language switcher
+        function initializeLanguageSwitcher() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    currentLanguage = lang;
+                    
+                    // Update active button
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update card content
+                    renderCard(lang);
+                });
+            });
+        }
+
+        // Render card content based on language
+        function renderCard(lang) {
+            const content = loanContent[lang];
+            const card = document.getElementById('business-loan-card');
+            
+            // Get language class for styling
+            const langClass = lang === 'en' ? '' : 
+                            lang === 'hi' ? 'hindi-text' :
+                            lang === 'ta' ? 'tamil-text' : 'telugu-text';
+            
+            let tableHTML = `
+                <table class="bank-comparison-table">
+                    <thead>
+                        <tr>
+                            ${content.tableHeaders.map(header => <th>${header}</th>).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            // Add bank rows
+            content.banks.forEach(bank => {
+                tableHTML += `
+                    <tr>
+                        <td>
+                            <div class="bank-name">
+                                <div class="bank-logo" style="background: ${bank.color};">${bank.code}</div>
+                                <span>${bank.name}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="interest-rate">${bank.rate}</span>
+                            ${bank.rateBadge ? <span class="rate-badge ${bank.badgeClass}">${bank.rateBadge}</span> : ''}
+                        </td>
+                        <td>${bank.fee}</td>
+                        <td>${bank.maxAmount}</td>
+                        <td>${bank.features}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += '</tbody></table>';
+            
+            // Build instructions HTML
+            let instructionsHTML = '';
+            content.instructions.steps.forEach(step => {
+                instructionsHTML += `
+                    <li class="instruction-item">
+                        <div class="instruction-step">${step.step}</div>
+                        <div class="instruction-content">
+                            <h4>${step.title}</h4>
+                            <p>${step.description}</p>
+                        </div>
+                    </li>
+                `;
+            });
+            
+            // Build stats HTML
+            let statsHTML = '';
+            content.stats.forEach(stat => {
+                statsHTML += `
+                    <div class="stat-item">
+                        <div class="stat-value">${stat.value}</div>
+                        <div class="stat-label">${stat.label}</div>
+                    </div>
+                `;
+            });
+            
+            // Build tips HTML
+            let tipsHTML = '';
+            content.tips.items.forEach(tip => {
+                tipsHTML += `
+                    <li class="instruction-item">
+                        <div class="instruction-step"><i class="${tip.icon}"></i></div>
+                        <div class="instruction-content">
+                            <h4>${tip.title}</h4>
+                            <p>${tip.description}</p>
+                        </div>
+                    </li>
+                `;
+            });
+            
+            // Assemble complete card HTML
+            card.innerHTML = `
+                <div class="card-header ${langClass}">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2 class="card-title">${content.title}</h2>
+                </div>
+                
+                <p class="card-description ${langClass}">
+                    ${content.description}
+                </p>
+                
+                <!-- Bank Comparison Table -->
+                <div class="comparison-section">
+                    <div class="section-title">
+                        <i class="fas fa-balance-scale"></i>
+                        <h3>${content.comparisonTitle} <i class="fas fa-info-circle info-icon" title="Rates are for women entrepreneur schemes"></i></h3>
+                    </div>
+                    
+                    ${tableHTML}
+                </div>
+                
+                <!-- How to Apply Instructions -->
+                <div class="instructions-section">
+                    <h3 class="instructions-title">
+                        <i class="fas fa-list-ol"></i>
+                        ${content.instructions.title}
+                    </h3>
+                    
+                    <ul class="instructions-list">
+                        ${instructionsHTML}
+                    </ul>
+                </div>
+                
+                <!-- Stats Section -->
+                <div class="card-stats">
+                    ${statsHTML}
+                </div>
+                
+                <!-- Tips Section -->
+                <div class="instructions-section">
+                    <h3 class="instructions-title">
+                        <i class="fas fa-lightbulb"></i>
+                        ${content.tips.title}
+                    </h3>
+                    
+                    <ul class="instructions-list">
+                        ${tipsHTML}
+                    </ul>
+                </div>
+            `;
+            
+            // Add event listeners after rendering
+            addEventListeners();
+        }
+
+        // Add event listeners for interactive features
+        function addEventListeners() {
+            // Tooltip functionality
+            const infoIcons = document.querySelectorAll('.info-icon');
+            infoIcons.forEach(icon => {
+                const title = icon.getAttribute('title');
+                icon.addEventListener('mouseenter', function(e) {
+                    const tooltip = document.createElement('div');
+                    tooltip.textContent = title;
+                    tooltip.style.cssText = `
+                        position: absolute;
+                        background: #333;
+                        color: white;
+                        padding: 8px 12px;
+                        border-radius: 6px;
+                        font-size: 0.8rem;
+                        z-index: 1000;
+                        max-width: 250px;
+                        transform: translateX(-50%);
+                        left: ${e.clientX}px;
+                        top: ${e.clientY + 15}px;
+                        pointer-events: none;
+                    `;
+                    document.body.appendChild(tooltip);
+                    this.tooltip = tooltip;
+                });
+                
+                icon.addEventListener('mouseleave', function() {
+                    if (this.tooltip) {
+                        this.tooltip.remove();
+                    }
+                });
+                
+                icon.addEventListener('mousemove', function(e) {
+                    if (this.tooltip) {
+                        this.tooltip.style.left = e.clientX + 'px';
+                        this.tooltip.style.top = (e.clientY + 15) + 'px';
+                    }
+                });
+            });
+            
+            // Highlight best rates
+            const rateCells = document.querySelectorAll('.interest-rate');
+            rateCells.forEach(cell => {
+                const rate = parseFloat(cell.textContent);
+                if (rate <= 9.0) {
+                    cell.style.color = '#2e7d32';
+                    cell.style.fontWeight = '800';
+                }
+            });
+            
+            // Add click to copy bank name
+            const bankNames = document.querySelectorAll('.bank-name span');
+            bankNames.forEach(name => {
+                name.style.cursor = 'pointer';
+                name.title = currentLanguage === 'en' ? 'Click to copy bank name' : 
+                           currentLanguage === 'hi' ? 'बैंक का नाम कॉपी करने के लिए क्लिक करें' :
+                           currentLanguage === 'ta' ? 'வங்கி பெயரை நகலெடுக்க கிளிக் செய்யவும்' : 
+                           'బ్యాంక్ పేరును కాపీ చేయడానికి క్లిక్ చేయండి';
+                
+                name.addEventListener('click', function() {
+                    const text = this.textContent;
+                    navigator.clipboard.writeText(text)
+                        .then(() => {
+                            const originalText = this.textContent;
+                            this.textContent = currentLanguage === 'en' ? '✓ Copied!' : 
+                                            currentLanguage === 'hi' ? '✓ कॉपी किया गया!' :
+                                            currentLanguage === 'ta' ? '✓ நகலெடுக்கப்பட்டது!' : 
+                                            '✓ కాపీ చేయబడింది!';
+                            setTimeout(() => {
+                                this.textContent = originalText;
+                            }, 1500);
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy: ', err);
+                        });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
