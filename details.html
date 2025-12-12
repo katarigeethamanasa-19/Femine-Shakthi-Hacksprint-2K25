@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Savings Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #4CAF50;
+            --secondary: #1976D2;
+            --accent: #FF9800;
+            --light: #F5F5F5;
+            --dark: #333;
+            --gray: #757575;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .lang-btn.active {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-top: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .app-icon {
+            font-size: 3.5rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 50%;
+        }
+        
+        main {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+        
+        /* Family Details Styles */
+        .family-details {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--light);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .number-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .number-btn {
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--primary);
+            background: white;
+            border-radius: 6px;
+            font-size: 18px;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .number-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .number-display {
+            min-width: 40px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+        
+        .children-section {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .child-item {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e6e9ff;
+        }
+        
+        .child-item:last-child {
+            border-bottom: none;
+        }
+        
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .salary-display {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+        
+        .expense-name {
+            display: flex;
+            align-items: center;
+        }
+        
+        .expense-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .expense-amount {
+            font-weight: 600;
+        }
+        
+        .progress-container {
+            margin: 1.5rem 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .savings-tips {
+            background: linear-gradient(135deg, #E3F2FD, #F1F8E9);
+            border-left: 5px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1.5rem;
+        }
+        
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .tip-icon {
+            color: var(--accent);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-reset {
+            background: var(--gray);
+        }
+        
+        .btn-reset:hover {
+            background: #616161;
+        }
+        
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            background: var(--light);
+        }
+        
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+        
+        .positive {
+            color: var(--primary);
+        }
+        
+        .warning {
+            color: #F57C00;
+        }
+        
+        .negative {
+            color: #D32F2F;
+        }
+        
+        .monthly-breakdown {
+            margin-top: 2rem;
+        }
+        
+        .breakdown-chart {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            margin-top: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .chart-bar {
+            width: 60px;
+            background: linear-gradient(to top, var(--primary-light), var(--primary));
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: height 0.8s ease;
+        }
+        
+        .chart-bar.cumulative {
+            background: linear-gradient(to top, var(--secondary), #64B5F6);
+            margin-bottom: 5px;
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .chart-value {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.8rem;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: var(--gray);
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .app-icon {
+                margin-top: 1rem;
+            }
+            
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .breakdown-chart {
+                height: 250px;
+            }
+            
+            .chart-bar {
+                width: 40px;
+            }
+            
+            .language-switcher {
+                position: relative;
+                top: 0;
+                right: 0;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="hi">हिंदी</button>
+                <button class="lang-btn" data-lang="te">తెలుగు</button>
+            </div>
+            <div class="header-content">
+                <div>
+                    <h1 data-i18n="app_title">Smart Savings Planner</h1>
+                    <p class="subtitle" data-i18n="app_subtitle">Plan your savings based on your monthly salary and expenses</p>
+                </div>
+                <div class="app-icon">
+                    <i class="fas fa-piggy-bank"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main>
+            <section class="left-panel">
+                <div class="card">
+                    <h2><i class="fas fa-user-circle"></i> <span data-i18n="your_details">Your Details</span></h2>
+                    
+                    <div class="input-group">
+                        <label for="userName" data-i18n="your_name">Your Name</label>
+                        <input type="text" id="userName" placeholder="Enter your name" value="Alex Johnson">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="monthlySalary" data-i18n="monthly_salary">Monthly Salary (₹)</label>
+                        <input type="number" id="monthlySalary" placeholder="Enter your monthly salary" value="75000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="financialGoal" data-i18n="financial_goal">Financial Goal</label>
+                        <select id="financialGoal">
+                            <option value="emergency" data-i18n="goal_emergency">Build Emergency Fund</option>
+                            <option value="house" selected data-i18n="goal_house">Save for House Down Payment</option>
+                            <option value="car" data-i18n="goal_car">Save for a Car</option>
+                            <option value="vacation" data-i18n="goal_vacation">Save for Vacation</option>
+                            <option value="retirement" data-i18n="goal_retirement">Retirement Planning</option>
+                            <option value="investment" data-i18n="goal_investment">Investment Capital</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="goalAmount" data-i18n="goal_amount">Goal Amount (₹)</label>
+                        <input type="number" id="goalAmount" placeholder="Amount needed for your goal" value="500000" min="0" step="10000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="timeline" data-i18n="goal_timeline">Goal Timeline (Months)</label>
+                        <input type="range" id="timeline" min="6" max="60" value="24" step="1">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span data-i18n="months_6">6 months</span>
+                            <span id="timelineValue">24 months</span>
+                            <span data-i18n="months_60">60 months</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" id="calculateBtn">
+                        <i class="fas fa-calculator"></i> <span data-i18n="calculate_btn">Calculate Savings Plan</span>
+                    </button>
+                    
+                    <button class="btn btn-reset" id="resetBtn">
+                        <i class="fas fa-redo"></i> <span data-i18n="reset_btn">Reset Values</span>
+                    </button>
+                </div>
+                
+                <!-- Family Details Section -->
+                <div class="card">
+                    <h2><i class="fas fa-users"></i> Family Details</h2>
+                    
+                    <div class="form-grid">
+                        <!-- Family Members -->
+                        <div class="input-group">
+                            <label class="form-label">Family Members</label>
+                            <div class="number-input-group">
+                                <button class="number-btn minus" onclick="decrement('familyMembers')">-</button>
+                                <div class="number-display" id="familyMembers">4</div>
+                                <button class="number-btn plus" onclick="increment('familyMembers')">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Housing Status -->
+                        <div class="input-group">
+                            <label class="form-label">Housing Status</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="housing" value="own" checked>
+                                    Own
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="housing" value="rent">
+                                    Rent
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Four Wheelers -->
+                        <div class="input-group">
+                            <label class="form-label">Four Wheelers</label>
+                            <div class="number-input-group">
+                                <button class="number-btn minus" onclick="decrement('fourWheelers')">-</button>
+                                <div class="number-display" id="fourWheelers">1</div>
+                                <button class="number-btn plus" onclick="increment('fourWheelers')">+</button>
+                            </div>
+                        </div>
+
+                        <!-- EMIs -->
+                        <div class="input-group">
+                            <label class="form-label">Active EMIs</label>
+                            <div class="number-input-group">
+                                <button class="number-btn minus" onclick="decrement('emis')">-</button>
+                                <div class="number-display" id="emis">2</div>
+                                <button class="number-btn plus" onclick="increment('emis')">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Number of Children -->
+                        <div class="input-group">
+                            <label class="form-label">Children</label>
+                            <div class="number-input-group">
+                                <button class="number-btn minus" onclick="decrement('children')">-</button>
+                                <div class="number-display" id="children">2</div>
+                                <button class="number-btn plus" onclick="increment('children')">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Children Education Section -->
+                    <div class="children-section" id="childrenSection" style="display: none;">
+                        <h4 style="color: var(--dark); margin-bottom: 15px;">Children Education Details</h4>
+                        <div id="childrenEducationContainer">
+                            <!-- Child items will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="right-panel">
+                <div class="card">
+                    <h2><i class="fas fa-chart-pie"></i> <span data-i18n="savings_plan">Your Savings Plan</span></h2>
+                    
+                    <div class="salary-display">
+                        <span id="displaySalary">₹75,000</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span data-i18n="monthly_progress">Monthly Savings Progress</span>
+                            <span id="savingsPercent">20%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="savingsProgress" style="width: 20%; background-color: var(--primary);"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="expensesList">
+                        <div class="expense-item">
+                            <div class="expense-name">
+                                <div class="expense-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div>
+                                    <div data-i18n="expense_housing">Housing (Rent/EMI)</div>
+                                    <small data-i18n="percent_30">30% of salary</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount">₹22,500</div>
+                        </div>
+                        
+                        <div class="expense-item">
+                            <div class="expense-name">
+                                <div class="expense-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <div data-i18n="expense_food">Food & Groceries</div>
+                                    <small data-i18n="percent_15">15% of salary</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount">₹11,250</div>
+                        </div>
+                        
+                        <div class="expense-item">
+                            <div class="expense-name">
+                                <div class="expense-icon">
+                                    <i class="fas fa-bus"></i>
+                                </div>
+                                <div>
+                                    <div data-i18n="expense_transport">Transportation</div>
+                                    <small data-i18n="percent_10">10% of salary</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount">₹7,500</div>
+                        </div>
+                        
+                        <div class="expense-item">
+                            <div class="expense-name">
+                                <div class="expense-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <div>
+                                    <div data-i18n="expense_utilities">Utilities & Bills</div>
+                                    <small data-i18n="percent_8">8% of salary</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount">₹6,000</div>
+                        </div>
+                        
+                        <div class="expense-item">
+                            <div class="expense-name">
+                                <div class="expense-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div>
+                                    <div data-i18n="expense_healthcare">Healthcare</div>
+                                    <small data-i18n="percent_5">5% of salary</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount">₹3,750</div>
+                        </div>
+                        
+                        <div class="expense-item">
+                            <div class="expense-name">
+                                <div class="expense-icon" style="color: var(--primary);">
+                                    <i class="fas fa-piggy-bank"></i>
+                                </div>
+                                <div>
+                                    <div data-i18n="expense_savings">Savings & Investments</div>
+                                    <small data-i18n="percent_20">20% of salary</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount" style="color: var(--primary);">₹15,000</div>
+                        </div>
+                        
+                        <!-- Family Expenses Section -->
+                        <div class="expense-item" style="background-color: #f8f9ff; border-radius: 8px; padding: 10px; margin-top: 10px;">
+                            <div class="expense-name">
+                                <div class="expense-icon" style="background-color: #e3f2fd;">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700;">Family Expenses</div>
+                                    <small>Based on your family details</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount" id="familyExpensesAmount">₹0</div>
+                        </div>
+                        
+                        <div class="expense-item" style="border-top: 2px solid var(--dark); padding-top: 1rem; margin-top: 0.5rem;">
+                            <div class="expense-name">
+                                <div>
+                                    <div style="font-weight: 700;" data-i18n="disposable_income">Disposable Income</div>
+                                    <small data-i18n="disposable_desc">For entertainment, shopping, etc.</small>
+                                </div>
+                            </div>
+                            <div class="expense-amount" style="font-size: 1.2rem;" id="disposableIncome">₹9,000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-summary">
+                        <div class="summary-item">
+                            <div data-i18n="monthly_savings_label">Monthly Savings</div>
+                            <div class="summary-value positive" id="monthlySavings">₹15,000</div>
+                            <div data-i18n="for_your_goal">for your goal</div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div data-i18n="goal_timeline_label">Goal Timeline</div>
+                            <div class="summary-value" id="goalTimeline">24 months</div>
+                            <div data-i18n="to_reach_target">to reach your target</div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div data-i18n="projected_total">Projected Total</div>
+                            <div class="summary-value positive" id="projectedTotal">₹3,60,000</div>
+                            <div data-i18n="saved_in_months">saved in 24 months</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+    
+    </div>
+
+    <script>
+        // User Profile Data
+        let userProfile = {
+            name: "Alex Johnson",
+            monthlySalary: 75000,
+            financialGoal: "house",
+            goalAmount: 500000,
+            timeline: 24,
+            familyMembers: 4,
+            housing: "own",
+            fourWheelers: 1,
+            emis: 2,
+            children: 2,
+            childrenEducation: []
+        };
+
+        // Multilingual Support
+        const translations = {
+            en: {
+                app_title: "Smart Savings Planner",
+                app_subtitle: "Plan your savings based on your monthly salary and expenses",
+                your_details: "Your Details",
+                your_name: "Your Name",
+                monthly_salary: "Monthly Salary (₹)",
+                financial_goal: "Financial Goal",
+                goal_amount: "Goal Amount (₹)",
+                goal_timeline: "Goal Timeline (Months)",
+                calculate_btn: "Calculate Savings Plan",
+                reset_btn: "Reset Values",
+                savings_tips: "Smart Savings Tips",
+                savings_plan: "Your Savings Plan",
+                monthly_breakdown: "Monthly Savings Breakdown",
+                breakdown_desc: "Visualize how your savings will grow over time",
+                
+                // Goals
+                goal_emergency: "Build Emergency Fund",
+                goal_house: "Save for House Down Payment",
+                goal_car: "Save for a Car",
+                goal_vacation: "Save for Vacation",
+                goal_retirement: "Retirement Planning",
+                goal_investment: "Investment Capital",
+                
+                // Tips
+                tip1_title: "Pay Yourself First:",
+                tip1_desc: "Automatically transfer a portion of your salary to savings before paying bills.",
+                tip2_title: "50/30/20 Rule:",
+                tip2_desc: "Allocate 50% to needs, 30% to wants, and 20% to savings.",
+                tip3_title: "Emergency Fund:",
+                tip3_desc: "Build 3-6 months of expenses as a financial safety net.",
+                tip4_title: "Track Expenses:",
+                tip4_desc: "Monitor spending to identify areas where you can save more.",
+                
+                // Expenses
+                expense_housing: "Housing (Rent/EMI)",
+                expense_food: "Food & Groceries",
+                expense_transport: "Transportation",
+                expense_utilities: "Utilities & Bills",
+                expense_healthcare: "Healthcare",
+                expense_savings: "Savings & Investments",
+                
+                // Percentages
+                percent_30: "30% of salary",
+                percent_15: "15% of salary",
+                percent_10: "10% of salary",
+                percent_8: "8% of salary",
+                percent_5: "5% of salary",
+                percent_20: "20% of salary",
+                
+                // Other labels
+                disposable_income: "Disposable Income",
+                disposable_desc: "For entertainment, shopping, etc.",
+                monthly_progress: "Monthly Savings Progress",
+                monthly_savings_label: "Monthly Savings",
+                for_your_goal: "for your goal",
+                goal_timeline_label: "Goal Timeline",
+                to_reach_target: "to reach your target",
+                projected_total: "Projected Total",
+                saved_in_months: "saved in 24 months",
+                
+                // Timeline
+                months_6: "6 months",
+                months_60: "60 months",
+                
+                // Legend
+                legend_monthly: "Monthly Savings",
+                legend_cumulative: "Cumulative Savings",
+                
+                // Footer
+                footer1: "Smart Savings Planner • Learn to save based on your monthly salary",
+                footer2: "This tool provides educational guidance. Consult a financial advisor for personalized advice."
+            },
+            hi: {
+                app_title: "स्मार्ट सेविंग्स प्लानर",
+                app_subtitle: "अपने मासिक वेतन और खर्चों के आधार पर अपनी बचत की योजना बनाएं",
+                your_details: "आपका विवरण",
+                your_name: "आपका नाम",
+                monthly_salary: "मासिक वेतन (₹)",
+                financial_goal: "वित्तीय लक्ष्य",
+                goal_amount: "लक्ष्य राशि (₹)",
+                goal_timeline: "लक्ष्य समयसीमा (महीने)",
+                calculate_btn: "बचत योजना की गणना करें",
+                reset_btn: "मान रीसेट करें",
+                savings_tips: "स्मार्ट बचत टिप्स",
+                savings_plan: "आपकी बचत योजना",
+                monthly_breakdown: "मासिक बचत विवरण",
+                breakdown_desc: "देखें कि समय के साथ आपकी बचत कैसे बढ़ेगी",
+                
+                // Goals
+                goal_emergency: "आपातकालीन निधि बनाएं",
+                goal_house: "हाउस डाउन पेमेंट के लिए बचत करें",
+                goal_car: "कार खरीदने के लिए बचत करें",
+                goal_vacation: "छुट्टी के लिए बचत करें",
+                goal_retirement: "रिटायरमेंट प्लानिंग",
+                goal_investment: "निवेश पूंजी",
+                
+                // Tips
+                tip1_title: "सबसे पहले खुद को भुगतान करें:",
+                tip1_desc: "बिलों का भुगतान करने से पहले अपने वेतन का एक हिस्सा बचत में स्वचालित रूप से स्थानांतरित करें।",
+                tip2_title: "50/30/20 नियम:",
+                tip2_desc: "50% जरूरतों, 30% चाहतों और 20% बचत के लिए आवंटित करें।",
+                tip3_title: "आपातकालीन निधि:",
+                tip3_desc: "वित्तीय सुरक्षा जाल के रूप में 3-6 महीने के खर्चों का निर्माण करें।",
+                tip4_title: "खर्चों पर नजर रखें:",
+                tip4_desc: "अधिक बचत करने के लिए खर्चों की निगरानी करें।",
+                
+                // Expenses
+                expense_housing: "आवास (किराया/ईएमआई)",
+                expense_food: "भोजन और किराना सामान",
+                expense_transport: "परिवहन",
+                expense_utilities: "उपयोगिताएं और बिल",
+                expense_healthcare: "स्वास्थ्य सेवा",
+                expense_savings: "बचत और निवेश",
+                
+                // Percentages
+                percent_30: "वेतन का 30%",
+                percent_15: "वेतन का 15%",
+                percent_10: "वेतन का 10%",
+                percent_8: "वेतन का 8%",
+                percent_5: "वेतन का 5%",
+                percent_20: "वेतन का 20%",
+                
+                // Other labels
+                disposable_income: "विवेकाधीन आय",
+                disposable_desc: "मनोरंजन, खरीदारी आदि के लिए",
+                monthly_progress: "मासिक बचत प्रगति",
+                monthly_savings_label: "मासिक बचत",
+                for_your_goal: "आपके लक्ष्य के लिए",
+                goal_timeline_label: "लक्ष्य समयसीमा",
+                to_reach_target: "आपके लक्ष्य तक पहुंचने के लिए",
+                projected_total: "अनुमानित कुल",
+                saved_in_months: "24 महीनों में बचत",
+                
+                // Timeline
+                months_6: "6 महीने",
+                months_60: "60 महीने",
+                
+                // Legend
+                legend_monthly: "मासिक बचत",
+                legend_cumulative: "संचयी बचत",
+                
+                // Footer
+                footer1: "स्मार्ट सेविंग्स प्लानर • अपने मासिक वेतन के आधार पर बचत करना सीखें",
+                footer2: "यह उपकरण शैक्षिक मार्गदर्शन प्रदान करता है। व्यक्तिगत सलाह के लिए वित्तीय सलाहकार से परामर्श करें।"
+            },
+            te: {
+                app_title: "స్మార్ట్ పొదుపు ప్లానర్",
+                app_subtitle: "మీ మాసిక జీతం మరియు ఖర్చుల ఆధారంగా మీ పొదుపులను ప్రణాళిక చేయండి",
+                your_details: "మీ వివరాలు",
+                your_name: "మీ పేరు",
+                monthly_salary: "మాసిక జీతం (₹)",
+                financial_goal: "ఆర్థిక లక్ష్యం",
+                goal_amount: "లక్ష్యం మొత్తం (₹)",
+                goal_timeline: "లక్ష్యం కాలపరిమితి (నెలలు)",
+                calculate_btn: "పొదుపు ప్రణాళికను లెక్కించండి",
+                reset_btn: "విలువలను రీసెట్ చేయండి",
+                savings_tips: "స్మార్ట్ పొదుపు చిట్కాలు",
+                savings_plan: "మీ పొదుపు ప్రణాళిక",
+                monthly_breakdown: "మాసిక పొదుపు వివరణ",
+                breakdown_desc: "కాలంతో పాటు మీ పొదుపులు ఎలా పెరుగుతాయో చూడండి",
+                
+                // Goals
+                goal_emergency: "అత్యవసర నిధిని నిర్మించండి",
+                goal_house: "హౌస్ డౌన్ పేమెంట్ కోసం పొదుపు చేయండి",
+                goal_car: "కారు కొనుగోలు కోసం పొదుపు చేయండి",
+                goal_vacation: "సెలవుల కోసం పొదుపు చేయండి",
+                goal_retirement: "రిటైర్మెంట్ ప్లానింగ్",
+                goal_investment: "ఇన్వెస్ట్మెంట్ క్యాపిటల్",
+                
+                // Tips
+                tip1_title: "మొదట మీకు చెల్లించండి:",
+                tip1_desc: "బిల్లులు చెల్లించే ముందు మీ జీతంలో ఒక భాగాన్ని పొదుపుకు స్వయంచాలకంగా బదిలీ చేయండి.",
+                tip2_title: "50/30/20 నియమం:",
+                tip2_desc: "50% అవసరాలు, 30% కోరికలు మరియు 20% పొదుపులకు కేటాయించండి.",
+                tip3_title: "అత్యవసర నిధి:",
+                tip3_desc: "ఆర్థిక భద్రతా జాలంగా 3-6 నెలల ఖర్చులను నిర్మించండి.",
+                tip4_title: "ఖర్చులను ట్రాక్ చేయండి:",
+                tip4_desc: "మీరు ఎక్కువగా పొదుపు చేయగల ప్రాంతాలను గుర్తించడానికి ఖర్చులను మానిటర్ చేయండి.",
+                
+                // Expenses
+                expense_housing: "వసతి (అద్దె/ఈఎంఐ)",
+                expense_food: "ఆహారం మరియు కిరాణా సామగ్రి",
+                expense_transport: "పరివహన",
+                expense_utilities: "యుటిలిటీస్ మరియు బిల్లులు",
+                expense_healthcare: "ఆరోగ్య సంరక్షణ",
+                expense_savings: "పొదుపు మరియు పెట్టుబడులు",
+                
+                // Percentages
+                percent_30: "జీతంలో 30%",
+                percent_15: "జీతంలో 15%",
+                percent_10: "జీతంలో 10%",
+                percent_8: "జీతంలో 8%",
+                percent_5: "జీతంలో 5%",
+                percent_20: "జీతంలో 20%",
+                
+                // Other labels
+                disposable_income: "డిస్పోజబుల్ ఆదాయం",
+                disposable_desc: "వినోదం, షాపింగ్ మొదలైన వాటి కోసం",
+                monthly_progress: "మాసిక పొదుపు పురోగతి",
+                monthly_savings_label: "మాసిక పొదుపులు",
+                for_your_goal: "మీ లక్ష్యం కోసం",
+                goal_timeline_label: "లక్ష్యం కాలపరిమితి",
+                to_reach_target: "మీ లక్ష్యాన్ని చేరుకోవడానికి",
+                projected_total: "అంచనా మొత్తం",
+                saved_in_months: "24 నెలల్లో పొదుపు చేయబడింది",
+                
+                // Timeline
+                months_6: "6 నెలలు",
+                months_60: "60 నెలలు",
+                
+                // Legend
+                legend_monthly: "మాసిక పొదుపులు",
+                legend_cumulative: "సంచిత పొదుపులు",
+                
+                // Footer
+                footer1: "స్మార్ట్ పొదుపు ప్లానర్ • మీ మాసిక జీతం ఆధారంగా పొదుపు చేయడం నేర్చుకోండి",
+                footer2: "ఈ సాధనం విద్యాపరమైన మార్గదర్శకత్వాన్ని అందిస్తుంది. వ్యక్తిగత సలహా కోసం ఆర్థిక సలహాదారుని సంప్రదించండి."
+            }
+        };
+
+        // DOM Elements
+        const monthlySalaryInput = document.getElementById('monthlySalary');
+        const userNameInput = document.getElementById('userName');
+        const financialGoalSelect = document.getElementById('financialGoal');
+        const goalAmountInput = document.getElementById('goalAmount');
+        const timelineInput = document.getElementById('timeline');
+        const timelineValue = document.getElementById('timelineValue');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        const displaySalary = document.getElementById('displaySalary');
+        const savingsPercent = document.getElementById('savingsPercent');
+        const savingsProgress = document.getElementById('savingsProgress');
+        
+        const monthlySavingsElement = document.getElementById('monthlySavings');
+        const goalTimelineElement = document.getElementById('goalTimeline');
+        const projectedTotalElement = document.getElementById('projectedTotal');
+        
+        const savingsChart = document.getElementById('savingsChart');
+        const familyExpensesAmount = document.getElementById('familyExpensesAmount');
+        const disposableIncome = document.getElementById('disposableIncome');
+        
+        // Current language
+        let currentLang = 'en';
+        
+        // Expense percentages (will be adjusted based on family details)
+        let expensePercentages = {
+            housing: 0.30,
+            food: 0.15,
+            transport: 0.10,
+            utilities: 0.08,
+            healthcare: 0.05,
+            savings: 0.20,
+            family: 0.12 // Initial family expenses
+        };
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved user data
+            loadUserData();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Calculate initial savings plan
+            calculateSavingsPlan();
+            
+            // Initialize children education section
+            updateChildrenEducation();
+        });
+        
+        // Load user data from localStorage
+        function loadUserData() {
+            const savedData = localStorage.getItem('savingsUserProfile');
+            if (savedData) {
+                const savedProfile = JSON.parse(savedData);
+                userProfile = { ...userProfile, ...savedProfile };
+                
+                // Update UI with saved data
+                monthlySalaryInput.value = userProfile.monthlySalary;
+                userNameInput.value = userProfile.name;
+                financialGoalSelect.value = userProfile.financialGoal;
+                goalAmountInput.value = userProfile.goalAmount;
+                timelineInput.value = userProfile.timeline;
+                
+                document.getElementById('familyMembers').textContent = userProfile.familyMembers;
+                document.getElementById('fourWheelers').textContent = userProfile.fourWheelers;
+                document.getElementById('emis').textContent = userProfile.emis;
+                document.getElementById('children').textContent = userProfile.children;
+                
+                // Set housing radio
+                const housingRadio = document.querySelector(input[name="housing"][value="${userProfile.housing}"]);
+                if (housingRadio) housingRadio.checked = true;
+                
+                updateSalaryDisplay();
+                updateTimelineDisplay();
+                updateChildrenEducation();
+            }
+        }
+        
+        // Save user data to localStorage
+        function saveUserData() {
+            localStorage.setItem('savingsUserProfile', JSON.stringify(userProfile));
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Basic inputs
+            monthlySalaryInput.addEventListener('input', updateSalaryDisplay);
+            timelineInput.addEventListener('input', updateTimelineDisplay);
+            calculateBtn.addEventListener('click', calculateSavingsPlan);
+            resetBtn.addEventListener('click', resetToDefaults);
+            
+            // Real-time calculation updates
+            monthlySalaryInput.addEventListener('change', function() {
+                userProfile.monthlySalary = parseFloat(this.value) || 0;
+                saveUserData();
+                calculateSavingsPlan();
+            });
+            
+            goalAmountInput.addEventListener('change', function() {
+                userProfile.goalAmount = parseFloat(this.value) || 0;
+                saveUserData();
+                calculateSavingsPlan();
+            });
+            
+            timelineInput.addEventListener('change', function() {
+                userProfile.timeline = parseInt(this.value) || 24;
+                saveUserData();
+                calculateSavingsPlan();
+            });
+            
+            financialGoalSelect.addEventListener('change', function() {
+                userProfile.financialGoal = this.value;
+                saveUserData();
+                calculateSavingsPlan();
+            });
+            
+            userNameInput.addEventListener('change', function() {
+                userProfile.name = this.value;
+                saveUserData();
+            });
+            
+            // Housing status change
+            document.querySelectorAll('input[name="housing"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    userProfile.housing = this.value;
+                    saveUserData();
+                    calculateSavingsPlan();
+                });
+            });
+            
+            // Language switcher
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    currentLang = this.dataset.lang;
+                    updateLanguage(currentLang);
+                    
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+        
+        // Update language
+        function updateLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'OPTION') {
+                        if (element.hasAttribute('placeholder')) {
+                            element.setAttribute('placeholder', translations[lang][key]);
+                        } else {
+                            element.textContent = translations[lang][key];
+                        }
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update dynamic content
+            calculateSavingsPlan();
+        }
+        
+        // Update salary display with formatting
+        function updateSalaryDisplay() {
+            const salary = parseFloat(monthlySalaryInput.value) || 0;
+            displaySalary.textContent = formatCurrency(salary);
+        }
+        
+        // Update timeline display
+        function updateTimelineDisplay() {
+            const months = parseInt(timelineInput.value) || 24;
+            timelineValue.textContent = ${months} ${currentLang === 'en' ? 'months' : currentLang === 'hi' ? 'महीने' : 'నెలలు'};
+        }
+        
+        // Number input functions
+        function increment(elementId) {
+            const element = document.getElementById(elementId);
+            let value = parseInt(element.textContent);
+            element.textContent = value + 1;
+            
+            // Update user profile
+            userProfile[elementId] = value + 1;
+            saveUserData();
+            
+            if (elementId === 'children') {
+                updateChildrenEducation();
+            }
+            
+            calculateSavingsPlan();
+        }
+
+        function decrement(elementId) {
+            const element = document.getElementById(elementId);
+            let value = parseInt(element.textContent);
+            if (value > 0) {
+                element.textContent = value - 1;
+                
+                // Update user profile
+                userProfile[elementId] = value - 1;
+                saveUserData();
+                
+                if (elementId === 'children') {
+                    updateChildrenEducation();
+                }
+                
+                calculateSavingsPlan();
+            }
+        }
+        
+        // Update children education section based on number of children
+        function updateChildrenEducation() {
+            const childrenCount = userProfile.children;
+            const container = document.getElementById('childrenEducationContainer');
+            const childrenSection = document.getElementById('childrenSection');
+            
+            // Show/hide children section
+            if (childrenCount > 0) {
+                childrenSection.style.display = 'block';
+            } else {
+                childrenSection.style.display = 'none';
+                return;
+            }
+            
+            // Clear existing children
+            container.innerHTML = '';
+            
+            // Create new children items
+            for (let i = 1; i <= childrenCount; i++) {
+                const childItem = document.createElement('div');
+                childItem.className = 'child-item';
+                
+                // Check if we have saved data for this child
+                const savedChild = userProfile.childrenEducation[i - 1];
+                
+                childItem.innerHTML = `
+                    <div>
+                        <label class="form-label">Child ${i} Age</label>
+                        <input type="number" class="form-input child-age" placeholder="Enter age" min="0" max="25" 
+                               value="${savedChild ? savedChild.age : (5 + i)}"
+                               onchange="saveChildData(${i})">
+                    </div>
+                    <div>
+                        <label class="form-label">Education Level</label>
+                        <select class="form-select child-edulevel" onchange="saveChildData(${i})">
+                            <option value="preschool">Pre-School</option>
+                            <option value="primary" ${(!savedChild || savedChild.educationLevel === 'primary') ? 'selected' : ''}>Primary School</option>
+                            <option value="middle" ${(savedChild && savedChild.educationLevel === 'middle') ? 'selected' : ''}>Middle School</option>
+                            <option value="high" ${(savedChild && savedChild.educationLevel === 'high') ? 'selected' : ''}>High School</option>
+                            <option value="college" ${(savedChild && savedChild.educationLevel === 'college') ? 'selected' : ''}>College</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Annual Education Cost (₹)</label>
+                        <input type="number" class="form-input child-cost" placeholder="Enter amount" 
+                               value="${savedChild ? savedChild.annualCost : (30000 + (i * 15000))}"
+                               onchange="saveChildData(${i})">
+                    </div>
+                `;
+                container.appendChild(childItem);
+            }
+        }
+        
+        // Save child data
+        function saveChildData(childIndex) {
+            const childItem = document.querySelectorAll('.child-item')[childIndex - 1];
+            if (childItem) {
+                const ageInput = childItem.querySelector('.child-age');
+                const eduSelect = childItem.querySelector('.child-edulevel');
+                const costInput = childItem.querySelector('.child-cost');
+                
+                // Update user profile
+                if (!userProfile.childrenEducation[childIndex - 1]) {
+                    userProfile.childrenEducation[childIndex - 1] = {};
+                }
+                
+                userProfile.childrenEducation[childIndex - 1] = {
+                    age: ageInput.value,
+                    educationLevel: eduSelect.value,
+                    annualCost: costInput.value
+                };
+                
+                saveUserData();
+                calculateSavingsPlan();
+            }
+        }
+        
+        // Calculate the savings plan based on inputs
+        function calculateSavingsPlan() {
+            const salary = userProfile.monthlySalary;
+            const goalAmount = userProfile.goalAmount;
+            const timeline = userProfile.timeline;
+            
+            // Calculate family-specific expenses
+            const familyExpenses = calculateFamilyExpenses();
+            
+            // Adjust expense percentages based on family size
+            adjustExpensePercentages();
+            
+            // Calculate expense amounts
+            const housingAmount = salary * expensePercentages.housing;
+            const foodAmount = salary * expensePercentages.food;
+            const transportAmount = salary * expensePercentages.transport;
+            const utilitiesAmount = salary * expensePercentages.utilities;
+            const healthcareAmount = salary * expensePercentages.healthcare;
+            const savingsAmount = salary * expensePercentages.savings;
+            const familyAmount = salary * expensePercentages.family;
+            
+            // Total expenses before savings
+            const totalExpenses = housingAmount + foodAmount + transportAmount + 
+                                 utilitiesAmount + healthcareAmount + familyAmount;
+            
+            const disposableIncomeAmount = salary - (totalExpenses + savingsAmount);
+            
+            // Update expense items in UI
+            document.querySelectorAll('.expense-item')[0].querySelector('.expense-amount').textContent = formatCurrency(housingAmount);
+            document.querySelectorAll('.expense-item')[1].querySelector('.expense-amount').textContent = formatCurrency(foodAmount);
+            document.querySelectorAll('.expense-item')[2].querySelector('.expense-amount').textContent = formatCurrency(transportAmount);
+            document.querySelectorAll('.expense-item')[3].querySelector('.expense-amount').textContent = formatCurrency(utilitiesAmount);
+            document.querySelectorAll('.expense-item')[4].querySelector('.expense-amount').textContent = formatCurrency(healthcareAmount);
+            document.querySelectorAll('.expense-item')[5].querySelector('.expense-amount').textContent = formatCurrency(savingsAmount);
+            
+            // Update family expenses
+            familyExpensesAmount.textContent = formatCurrency(familyAmount);
+            
+            // Update disposable income
+            disposableIncome.textContent = formatCurrency(disposableIncomeAmount);
+            
+            // Calculate if goal is achievable with current savings
+            const monthlySavingsNeeded = goalAmount / timeline;
+            const savingsPercentage = (monthlySavingsNeeded / salary) * 100;
+            
+            // Adjust savings recommendation if needed
+            let recommendedSavingsPercent = expensePercentages.savings;
+            let savingsStatus = "positive";
+            
+            if (monthlySavingsNeeded > savingsAmount) {
+                // Need to save more than current percentage to reach goal in timeline
+                recommendedSavingsPercent = Math.min(monthlySavingsNeeded / salary, 0.35);
+                savingsStatus = recommendedSavingsPercent > 0.30 ? "warning" : "positive";
+            } else if (monthlySavingsNeeded < savingsAmount * 0.5) {
+                // Can save less than current percentage and still reach goal
+                recommendedSavingsPercent = Math.max(monthlySavingsNeeded / salary, 0.10);
+            }
+            
+            // Update savings progress
+            const savingsPercentValue = Math.round(recommendedSavingsPercent * 100);
+            savingsPercent.textContent = ${savingsPercentValue}%;
+            savingsProgress.style.width = ${savingsPercentValue}%;
+            
+            // Update progress bar color based on savings status
+            if (savingsStatus === "warning") {
+                savingsProgress.style.backgroundColor = "#F57C00";
+            } else if (savingsStatus === "negative") {
+                savingsProgress.style.backgroundColor = "#D32F2F";
+            } else {
+                savingsProgress.style.backgroundColor = "var(--primary)";
+            }
+            
+            // Update summary
+            const actualMonthlySavings = salary * recommendedSavingsPercent;
+            const projectedTotal = actualMonthlySavings * timeline;
+            
+            monthlySavingsElement.textContent = formatCurrency(actualMonthlySavings);
+            goalTimelineElement.textContent = ${timeline} ${currentLang === 'en' ? 'months' : currentLang === 'hi' ? 'महीने' : 'నెలలు'};
+            projectedTotalElement.textContent = formatCurrency(projectedTotal);
+            
+            // Update summary colors
+            monthlySavingsElement.className = summary-value ${savingsStatus};
+            projectedTotalElement.className = summary-value ${savingsStatus};
+            
+            // Update the saved in months text
+            document.querySelectorAll('[data-i18n="saved_in_months"]').forEach(el => {
+                el.textContent = ${currentLang === 'en' ? 'saved in' : currentLang === 'hi' ? 'में बचत' : 'లో పొదుపు చేయబడింది'} ${timeline} ${currentLang === 'en' ? 'months' : currentLang === 'hi' ? 'महीने' : 'నెలలు'};
+            });
+            
+            // Generate chart with correct data
+            generateChart(salary, recommendedSavingsPercent, timeline);
+        }
+        
+        // Calculate family-specific expenses
+        function calculateFamilyExpenses() {
+            let totalFamilyExpense = 0;
+            
+            // Base family expense based on number of members
+            const basePerPerson = 2000; // Base monthly expense per person
+            totalFamilyExpense += userProfile.familyMembers * basePerPerson;
+            
+            // Additional for children education
+            userProfile.childrenEducation.forEach(child => {
+                if (child && child.annualCost) {
+                    totalFamilyExpense += parseInt(child.annualCost) / 12;
+                }
+            });
+            
+            // Additional for EMIs
+            totalFamilyExpense += userProfile.emis * 5000; // Average EMI per loan
+            
+            // Additional for vehicles
+            totalFamilyExpense += userProfile.fourWheelers * 4000; // Fuel and maintenance
+            
+            // Adjust based on housing status
+            if (userProfile.housing === 'rent') {
+                totalFamilyExpense += 5000; // Additional for renters
+            }
+            
+            return totalFamilyExpense;
+        }
+        
+        // Adjust expense percentages based on family details
+        function adjustExpensePercentages() {
+            // Reset to base percentages
+            expensePercentages = {
+                housing: 0.30,
+                food: 0.15,
+                transport: 0.10,
+                utilities: 0.08,
+                healthcare: 0.05,
+                savings: 0.20,
+                family: 0.12
+            };
+            
+            // Adjust based on family size
+            if (userProfile.familyMembers > 4) {
+                expensePercentages.food += 0.05;
+                expensePercentages.healthcare += 0.02;
+                expensePercentages.family += 0.05;
+                expensePercentages.savings -= 0.12;
+            } else if (userProfile.familyMembers > 2) {
+                expensePercentages.food += 0.03;
+                expensePercentages.healthcare += 0.01;
+                expensePercentages.family += 0.03;
+                expensePercentages.savings -= 0.07;
+            }
+            
+            // Adjust for EMIs
+            if (userProfile.emis > 0) {
+                expensePercentages.family += userProfile.emis * 0.03;
+                expensePercentages.savings -= userProfile.emis * 0.03;
+            }
+            
+            // Adjust for children education
+            const totalEducationCost = userProfile.childrenEducation.reduce((total, child) => {
+                return total + (parseInt(child?.annualCost) || 0);
+            }, 0);
+            
+            const monthlyEducationCost = totalEducationCost / 12;
+            if (monthlyEducationCost > 0) {
+                const educationPercent = (monthlyEducationCost / userProfile.monthlySalary);
+                expensePercentages.family += educationPercent;
+                expensePercentages.savings -= educationPercent;
+            }
+            
+            // Ensure percentages don't go below minimum or above maximum
+            expensePercentages.savings = Math.max(0.10, Math.min(0.35, expensePercentages.savings));
+            expensePercentages.family = Math.min(0.25, expensePercentages.family);
+        }
+        
+        // Generate the savings chart
+        function generateChart(salary = 75000, savingsPercent = 0.20, timeline = 24) {
+            savingsChart.innerHTML = '';
+            
+            const monthlySavings = salary * savingsPercent;
+            let cumulativeSavings = 0;
+            
+            // Determine how many bars to show (max 12 for readability)
+            const barCount = Math.min(timeline, 12);
+            const step = Math.max(1, Math.floor(timeline / barCount));
+            
+            // Find max value for scaling
+            const maxCumulative = monthlySavings * timeline;
+            const maxMonthly = monthlySavings * step;
+            
+            for (let i = 1; i <= barCount; i++) {
+                const month = i * step;
+                if (month > timeline) break;
+                
+                // Calculate cumulative savings up to this point
+                cumulativeSavings = monthlySavings * month;
+                
+                // Create bar container
+                const barContainer = document.createElement('div');
+                barContainer.style.display = 'flex';
+                barContainer.style.flexDirection = 'column';
+                barContainer.style.alignItems = 'center';
+                barContainer.style.margin = '0 5px';
+                barContainer.style.width = '60px';
+                
+                // Calculate heights based on maximum values
+                const cumulativeHeight = (cumulativeSavings / maxCumulative) * 80;
+                const monthlyHeight = (monthlySavings / maxMonthly) * 50;
+                
+                // Cumulative savings bar (background)
+                const cumulativeBar = document.createElement('div');
+                cumulativeBar.className = 'chart-bar cumulative';
+                cumulativeBar.style.height = ${Math.max(cumulativeHeight, 10)}%;
