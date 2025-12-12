@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Financial Learning — English / हिंदी / తెలుగు (Text Only)</title>
+  <style>
+    /* Minimal, text-only styling */
+    :root{font-family: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial; color:#111}
+    body{margin:20px;line-height:1.7}
+    header{margin-bottom:14px}
+    h1{font-size:1.4rem;margin:0 0 6px}
+    .lead{margin:0 0 12px;color:#333}
+    .lang-switch{margin:10px 0}
+    .lang-switch button{margin-right:6px;padding:6px 8px;border-radius:4px;border:1px solid #ccc;background:#fff}
+    .lesson{margin:12px 0}
+    .lesson h3{margin:4px 0}
+    .notes{margin:6px 0 0;padding-left:14px}
+    .outcomes{margin:6px 0 0;padding-left:20px}
+    footer{margin-top:20px;font-size:0.95rem;color:#444}
+    .trans{display:none}
+    pre{white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title-en">Financial Learning — English / हिंदी / తెలుగు</h1>
+    <h1 id="title-hi" class="trans">वित्तीय शिक्षा — अंग्रेज़ी / हिन्दी / तेलुगु</h1>
+    <h1 id="title-te" class="trans">ఆర్థిక పాఠాలు — ఇంగ్లీష్ / హిందీ / తెలుగు</h1>
+    <p class="lead" id="lead-en">A concise text-only course covering essential personal finance topics. Use the buttons to switch language.</p>
+    <p class="lead trans" id="lead-hi">एक संक्षिप्त पाठ्यक्रम जो व्यक्तिगत वित्त के मूल विषयों को कवर करता है। भाषा बदलने के लिए बटन दबाएं।</p>
+    <p class="lead trans" id="lead-te">ఆవశ్యక వ్యక్తిగత ఆర్థిక అంశాలను వర్ణించిన సంక్షిప్త పాఠ్యం. భాష మార్చడానికి బటన్లు నొక్కండి.</p>
+  </header>
+
+  <div class="lang-switch" aria-label="Language switch">
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('hi')">हिन्दी</button>
+    <button onclick="setLang('te')">తెలుగు</button>
+  </div>
+
+  <main>
+    <!-- English content -->
+    <section data-lang="en">
+      <h2>Course outline (12 lessons)</h2>
+      <ol>
+        <li>Financial mindset & goals</li>
+        <li>Budgeting basics</li>
+        <li>Saving strategies</li>
+        <li>Debt & credit management</li>
+        <li>Emergency fund & insurance</li>
+        <li>Basics of banking</li>
+        <li>Time value of money</li>
+        <li>Introduction to investing</li>
+        <li>Stocks, bonds, mutual funds</li>
+        <li>Retirement planning</li>
+        <li>Taxes and legal basics</li>
+        <li>Building a long-term plan</li>
+      </ol>
+
+      <section class="lesson">
+        <h3>Lesson 1 — Financial mindset & goals</h3>
+        <p class="notes">Overview: Define short-, medium-, and long-term goals. Use SMART criteria.</p>
+        <ol class="outcomes">
+          <li>Write one short-term and one long-term financial goal.</li>
+          <li>Assign time horizons and amounts to each goal.</li>
+        </ol>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 2 — Budgeting basics</h3>
+        <p class="notes">Track income and expenses; try 50/30/20 or zero-based budgeting for one month.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 3 — Saving strategies</h3>
+        <p class="notes">Automate savings, use round-ups, set up SIPs for long-term investing.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 4 — Debt & credit management</h3>
+        <p class="notes">Prioritize high-interest debt; compare avalanche and snowball methods.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 5 — Emergency fund & insurance</h3>
+        <p class="notes">Goal: 3–6 months of expenses in liquid accounts; review health and life insurance.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 6 — Basics of banking</h3>
+        <p class="notes">Know differences between savings/current accounts, FDs, and how interest compounds.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 7 — Time value of money</h3>
+        <p class="notes">Understand present value (PV) and future value (FV) and compounding effects.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 8 — Introduction to investing</h3>
+        <p class="notes">Risk vs return, diversification, asset allocation basics; prefer low-cost index funds to start.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 9 — Stocks, bonds, mutual funds</h3>
+        <p class="notes">Equities represent ownership; bonds are loans; funds pool investor money (check NAV, expense ratio).</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 10 — Retirement planning</h3>
+        <p class="notes">Estimate retirement target, use tax-advantaged accounts and start early to benefit from compounding.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 11 — Taxes and legal basics</h3>
+        <p class="notes">Keep records, learn basic capital gains rules, consult a tax advisor for complex situations.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>Lesson 12 — Building a long-term plan</h3>
+        <p class="notes">Combine goals, budget, emergency fund and investments into a one-page plan. Review quarterly.</p>
+      </section>
+    </section>
+
+    <!-- Hindi content -->
+    <section data-lang="hi" class="trans">
+      <h2>पाठ्यक्रम (12 पाठ)</h2>
+      <ol>
+        <li>वित्तीय मनोवृत्ति और लक्ष्य</li>
+        <li>बजट के मूल</li>
+        <li>बचत की रणनीतियाँ</li>
+        <li>ऋण और क्रेडिट प्रबंधन</li>
+        <li>आपातकालीन निधि और बीमा</li>
+        <li>बैंकिंग के मूल</li>
+        <li>पैसों का समय मूल्य</li>
+        <li>निवेश का परिचय</li>
+        <li>स्टॉक, बॉन्ड, म्यूचुअल फंड</li>
+        <li>सेवानिवृत्ति योजना</li>
+        <li>कर और कानूनी मूल बातें</li>
+        <li>दीर्घकालिक योजना बनाना</li>
+      </ol>
+
+      <section class="lesson">
+        <h3>पाठ 1 — वित्तीय मनोवृत्ति और लक्ष्य</h3>
+        <p class="notes">सारांश: लघु, मध्यम और दीर्घकालिक लक्ष्यों को परिभाषित करें; SMART मानदंड का उपयोग करें।</p>
+        <ol class="outcomes">
+          <li>एक लघु अवधि और एक दीर्घकालिक वित्तीय लक्ष्य लिखें।</li>
+          <li>प्रत्येक के लिए समय सीमा और राशि निर्धारित करें।</li>
+        </ol>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 2 — बजट के मूल</h3>
+        <p class="notes">आय और खर्च को ट्रैक करें; एक महीने के लिए 50/30/20 या जीरो‑बेस्ड बजट आज़माएँ।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 3 — बचत रणनीतियाँ</h3>
+        <p class="notes">बचत को स्वचालित करें, राउंड‑अप का उपयोग करें, दीर्घकालिक निवेश के लिए SIPs सेट करें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 4 — ऋण और क्रेडिट प्रबंधन</h3>
+        <p class="notes">उच्च ब्याज़ दर वाले ऋण को प्राथमिकता दें; एवलेन्च और स्नोबॉल विधियों की तुलना करें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 5 — आपातकालीन निधि और बीमा</h3>
+        <p class="notes">लक्ष्य: 3–6 महीने के खर्च तरल खातों में; स्वास्थ्य और जीवन बीमा की समीक्षा करें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 6 — बैंकिंग के मूल</h3>
+        <p class="notes">सेविंग्स/करंट खाते, FDs और कम्पाउंडिंग के बारे में जानें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 7 — पैसे का समय मूल्य</h3>
+        <p class="notes">PV और FV समझें और कम्पाउंडिंग का प्रभाव जानें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 8 — निवेश का परिचय</h3>
+        <p class="notes">जोखिम बनाम रिटर्न, विविधीकरण और एसेट अलोकेशन के मूल।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 9 — स्टॉक्स, बॉन्ड, म्यूचुअल फंड</h3>
+        <p class="notes">इक्विटी मालिकाना बनाम बॉन्ड ऋण; NAV और खर्च अनुपात देखें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 10 — रिटायरमेंट प्लानिंग</h3>
+        <p class="notes">रिटायरमेंट लक्ष्य का अनुमान लगाएँ और कर‑लाभ वाले खाते उपयोग करें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 11 — कर और कानूनी मूल बातें</h3>
+        <p class="notes">रिकॉर्ड रखें, कैपिटल गेन नियम सीखें, जटिल मामलों के लिए कर सलाहकार से परामर्श लें।</p>
+      </section>
+
+      <section class="lesson">
+        <h3>पाठ 12 — दीर्घकालिक योजना बनाना</h3>
+        <p class="notes">लक्ष्य, बजट, आपात निधि और निवेश को एक‑पेज योजना में मिलाएँ; त्रैमासिक समीक्षा करें।</p>
+      </section>
+    </section>
+
+    <!-- Telugu content -->
+    <section data-lang="te" class="trans">
+      <h2>పాఠ్యములు (12 పాఠాలు)</h2>
+      <ol>
+        <li>ఆర్థిక మనస్తత్వం & లక్ష్యాలు</li>
+        <li>బడ్జెటింగ్ ప్రాథమికాలు</li>
+        <li>సేవింగ్ వ్యూహాలు</li>
+        <li>పరించాలని & క్రెడిట్ నిర్వహణ</li>
+        <li>అత్యవసర నిధి & ఇన్సూరెన్స్</li>
+        <li>బ్యాంకింగ్ పాఠాలు</li>
+        <li>పెసల సమయ విలువ</li>
+        <li>ఇన్వెస్టింగ్ పరిచయం</li>
+        <li>స్టాక్స్, బాండ్స్, మ్యూచువల్ ఫండ్స్</li>
+        <li>రిటైర్మెంట్ ప్లానింగ్</li>
+        <li>పన్నులు & చట్టపరమైన ప్రాథమికాలు</li>
+        <li>దీర్ఘకాలిక ప్రణాళిక</li>
+      </ol>
+
+      <section class="lesson">
+        <h3>పాఠం 1 — ఆర్థిక మనస్తత్వం & లక్ష్యాలు</h3>
+        <p class="notes">సారాంశం: లఘు, మధ్య మరియు దీర్ఘకాలిక లక్ష్యాలను నిర్వచించండి; SMART ప్రమాణాలను వాడండి.</p>
+        <ol class="outcomes">
+          <li>ఒక లఘు మరియు ఒక దీర్ఘకాలిక ఆర్థిక లక్ష్యాన్ని రాయండి.</li>
+          <li>ప్రతి లక్ష్యానికి కాలపరిమితి మరియు రాశిని నిర్ణయించండి.</li>
+        </ol>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 2 — బడ్జెటింగ్ ప్రాథమికాలు</h3>
+        <p class="notes">ఆదాయం మరియు ఖర్చులను ట్రాక్ చేయండి; ఒక నెలకు 50/30/20 లేదా జీరో‑బేస్డ్ బడ్జెట్ ప్రయత్నించండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 3 — సేవింగ్ వ్యూహాలు</h3>
+        <p class="notes">సేవింగ్స్ ఆటోమేట్ చేయండి, రౌండ్‑అప్‌లు వాడండి, SIPs సెటప్ చేయండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 4 — అప్పులు & క్రెడిట్ నిర్వహణ</h3>
+        <p class="notes">అధిక వడ్డీ అప్పులను ప్రాధాన్యం ఇవ్వండి; అవలాంచ్ మరియు స్నోబాల్ పధ్ధతులను పోల్చండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 5 — అత్యవసర నిధి & ఇన్సూరెన్స్</h3>
+        <p class="notes">లక్ష్యం: 3–6 నెలల ఖర్చులకు సమానమైన నిధి; హెల్త్ & లైఫ్ ఇన్సూరెన్స్ చూడండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 6 — బ్యాంకింగ్ పాఠాలు</h3>
+        <p class="notes">సేవింగ్స్/కరెంట్ ఖాతాలు, FDలు, కమ్పౌండింగ్ గురించి తెలుసుకోండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 7 — సమయపు విలువ</h3>
+        <p class="notes">PV, FV తెలుసుకోండి మరియు పాలసీ ప్రభావాన్ని అర్థం చేసుకోండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 8 — ఇన్వెస్టింగ్ పరిచయం</h3>
+        <p class="notes">రిస్క్ vs రిటర్న్, డైవర్సిఫికేషన్, మరియు ఆస్తుల పంపిణీ.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 9 — స్టాక్స్, బాండ్స్, మ్యూచువల్ ఫండ్స్</h3>
+        <p class="notes">ఇక్విటీ యాజమాన్యం vs బాండ్ రుణం; NAV మరియు ఖర్చుల నిష్పత్తిని పరిశీలించండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 10 — రిటైర్మెంట్ ప్లానింగ్</h3>
+        <p class="notes">రిటైర్మెంట్ లక్ష్యాలను అంచనా వేయండి; ట్యాక్స్‑బెనిఫిట్స్ గల ఖాతాలను వినియోగించండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 11 — పన్నులు & చట్టపరమైన ప్రాథమికాలు</h3>
+        <p class="notes">రికార్డ్లు ఉంచండి, క్యాపిటల్ గెయిన్స్ నిబంధనలు తెలుసుకోండి, అవసరమైతే సలహా తీసుకోండి.</p>
+      </section>
+
+      <section class="lesson">
+        <h3>పాఠం 12 — దీర్ఘకాలిక ప్రణాళిక</h3>
+        <p class="notes">ఒక‑పేజీ ప్రణాళికను తయారు చేసి, త్రైమాసిక సమీక్షలు నిర్వహించండి.</p>
+      </section>
+    </section>
+
+  </main>
+
+
+  <script>
+    function setLang(code){
+      document.querySelectorAll('[data-lang]').forEach(function(el){
+        el.style.display = (el.getAttribute('data-lang')===code) ? 'block' : 'none';
+      });
+      ['en','hi','te'].forEach(function(l){
+        var t = document.getElementById('title-'+l);
+        var lead = document.getElementById('lead-'+l);
+        if(t) t.style.display = (l===code)?'block':'none';
+        if(lead) lead.style.display = (l===code)?'block':'none';
+      });
+    }
+    // default
+    setLang('en');
+  </script>
+</body>
+</html>
