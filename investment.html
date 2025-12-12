@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Salary Investment Planner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .lang-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .lang-btn.active {
+            background: white;
+            color: #2c3e50;
+            border-color: white;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .results-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            color: #3498db;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input[type="number"]:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .investment-category {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .percentage-display {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .calculate-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .calculate-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .reset-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .save-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background-color: #219653;
+        }
+        
+        .results-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .result-card {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid;
+        }
+        
+        .result-card.stocks {
+            border-color: #3498db;
+        }
+        
+        .result-card.bonds {
+            border-color: #9b59b6;
+        }
+        
+        .result-card.savings {
+            border-color: #2ecc71;
+        }
+        
+        .result-card.emergency {
+            border-color: #e74c3c;
+        }
+        
+        .result-card.other {
+            border-color: #f39c12;
+        }
+        
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .chart-container {
+            margin-top: 30px;
+            height: 300px;
+        }
+        
+        .summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        .saved-plans {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            margin-top: 30px;
+        }
+        
+        .plan-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .plan-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .load-plan-btn, .delete-plan-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .load-plan-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .delete-plan-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Language-specific fonts */
+        .hindi-text {
+            font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+        }
+        
+        .telugu-text {
+            font-family: 'Segoe UI', 'Noto Sans Telugu', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="header-title"><i class="fas fa-chart-line"></i> Monthly Salary Investment Planner</h1>
+            <p class="subtitle" id="header-subtitle">Plan and allocate your monthly salary to different investment categories</p>
+            
+            <!-- Language Switcher -->
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">
+                    <i class="fas fa-globe"></i> English
+                </button>
+                <button class="lang-btn" data-lang="hi">
+                    <i class="fas fa-globe"></i> हिन्दी
+                </button>
+                <button class="lang-btn" data-lang="te">
+                    <i class="fas fa-globe"></i> తెలుగు
+                </button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <h2><i class="fas fa-calculator"></i> <span id="allocation-title">Investment Allocation</span></h2>
+                
+                <div class="form-group">
+                    <label for="monthlySalary" id="salary-label">Monthly Salary (USD)</label>
+                    <input type="number" id="monthlySalary" min="0" value="5000" step="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="investmentPercentage" id="percentage-label">Percentage to Invest (%)</label>
+                    <input type="number" id="investmentPercentage" min="0" max="100" value="30">
+                </div>
+                
+                <div id="investmentCategories">
+                    <!-- Investment categories will be generated here -->
+                </div>
+                
+                <div class="buttons">
+                    <button class="calculate-btn" id="calculateBtn">
+                        <i class="fas fa-calculator"></i> <span id="calculate-text">Calculate Investment</span>
+                    </button>
+                    <button class="reset-btn" id="resetBtn">
+                        <i class="fas fa-redo"></i> <span id="reset-text">Reset</span>
+                    </button>
+                </div>
+                
+                <div class="buttons">
+                    <button class="save-btn" id="saveBtn">
+                        <i class="fas fa-save"></i> <span id="save-text">Save This Plan</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h2><i class="fas fa-chart-pie"></i> <span id="results-title">Investment Results</span></h2>
+                
+                <div class="results-container" id="resultsContainer">
+                    <!-- Results will be displayed here -->
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="investmentChart"></canvas>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <span id="summary-salary-label">Monthly Salary:</span>
+                        <span id="summarySalary">$5,000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span id="summary-investment-label">Amount to Invest:</span>
+                        <span id="summaryInvestment">$1,500</span>
+                    </div>
+                    <div class="summary-item">
+                        <span id="summary-expenses-label">Amount for Expenses:</span>
+                        <span id="summaryExpenses">$3,500</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+       
+    </div>
+
+    <script>
+        // Multilingual Content Database
+        const contentDatabase = {
+            en: {
+                header: {
+                    title: "Monthly Salary Investment Planner",
+                    subtitle: "Plan and allocate your monthly salary to different investment categories"
+                },
+                labels: {
+                    allocationTitle: "Investment Allocation",
+                    salaryLabel: "Monthly Salary (USD)",
+                    percentageLabel: "Percentage to Invest (%)",
+                    calculateBtn: "Calculate Investment",
+                    resetBtn: "Reset",
+                    saveBtn: "Save This Plan",
+                    resultsTitle: "Investment Results",
+                    summarySalary: "Monthly Salary:",
+                    summaryInvestment: "Amount to Invest:",
+                    summaryExpenses: "Amount for Expenses:",
+                    savedPlansTitle: "Saved Investment Plans",
+                    noPlans: "No saved plans yet. Create and save your first investment plan!",
+                    footer: "© 2023 Monthly Salary Investment Planner | Designed for Financial Planning",
+                    disclaimer: "Note: This tool is for educational purposes. Consult a financial advisor for personalized investment advice.",
+                    loadBtn: "Load",
+                    deleteBtn: "Delete",
+                    planSaved: "Investment plan saved successfully as",
+                    planLoaded: "plan loaded successfully!",
+                    confirmDelete: "Are you sure you want to delete this plan?",
+                    planNotFound: "Plan not found!"
+                },
+                categories: [
+                    { 
+                        id: 'stocks', 
+                        name: 'Stocks & ETFs', 
+                        defaultPercent: 40, 
+                        color: '#3498db', 
+                        icon: 'fa-chart-line' 
+                    },
+                    { 
+                        id: 'bonds', 
+                        name: 'Bonds & Fixed Income', 
+                        defaultPercent: 20, 
+                        color: '#9b59b6', 
+                        icon: 'fa-hand-holding-usd' 
+                    },
+                    { 
+                        id: 'savings', 
+                        name: 'High-Yield Savings', 
+                        defaultPercent: 15, 
+                        color: '#2ecc71', 
+                        icon: 'fa-piggy-bank' 
+                    },
+                    { 
+                        id: 'emergency', 
+                        name: 'Emergency Fund', 
+                        defaultPercent: 15, 
+                        color: '#e74c3c', 
+                        icon: 'fa-shield-alt' 
+                    },
+                    { 
+                        id: 'other', 
+                        name: 'Other Investments', 
+                        defaultPercent: 10, 
+                        color: '#f39c12', 
+                        icon: 'fa-cubes' 
+                    }
+                ]
+            },
+            hi: {
+                header: {
+                    title: "मासिक वेतन निवेश योजनाकार",
+                    subtitle: "अपने मासिक वेतन को विभिन्न निवेश श्रेणियों में योजनाबद्ध करें और आवंटित करें"
+                },
+                labels: {
+                    allocationTitle: "निवेश आवंटन",
+                    salaryLabel: "मासिक वेतन (USD)",
+                    percentageLabel: "निवेश करने का प्रतिशत (%)",
+                    calculateBtn: "निवेश की गणना करें",
+                    resetBtn: "रीसेट करें",
+                    saveBtn: "इस योजना को सहेजें",
+                    resultsTitle: "निवेश परिणाम",
+                    summarySalary: "मासिक वेतन:",
+                    summaryInvestment: "निवेश करने की राशि:",
+                    summaryExpenses: "खर्चों के लिए राशि:",
+                    savedPlansTitle: "सहेजी गई निवेश योजनाएं",
+                    noPlans: "अभी तक कोई सहेजी गई योजना नहीं है। अपनी पहली निवेश योजना बनाएं और सहेजें!",
+                    footer: "© 2023 मासिक वेतन निवेश योजनाकार | वित्तीय योजना के लिए डिज़ाइन किया गया",
+                    disclaimer: "नोट: यह उपकरण शैक्षिक उद्देश्यों के लिए है। व्यक्तिगत निवेश सलाह के लिए वित्तीय सलाहकार से परामर्श करें।",
+                    loadBtn: "लोड करें",
+                    deleteBtn: "हटाएं",
+                    planSaved: "निवेश योजना सफलतापूर्वक सहेजी गई",
+                    planLoaded: "योजना सफलतापूर्वक लोड की गई!",
+                    confirmDelete: "क्या आप वाकई इस योजना को हटाना चाहते हैं?",
+                    planNotFound: "योजना नहीं मिली!"
+                },
+                categories: [
+                    { 
+                        id: 'stocks', 
+                        name: 'शेयर और ETFs', 
+                        defaultPercent: 40, 
+                        color: '#3498db', 
+                        icon: 'fa-chart-line' 
+                    },
+                    { 
+                        id: 'bonds', 
+                        name: 'बॉन्ड और स्थिर आय', 
+                        defaultPercent: 20, 
+                        color: '#9b59b6', 
+                        icon: 'fa-hand-holding-usd' 
+                    },
+                    { 
+                        id: 'savings', 
+                        name: 'उच्च उपज बचत', 
+                        defaultPercent: 15, 
+                        color: '#2ecc71', 
+                        icon: 'fa-piggy-bank' 
+                    },
+                    { 
+                        id: 'emergency', 
+                        name: 'आपातकालीन निधि', 
+                        defaultPercent: 15, 
+                        color: '#e74c3c', 
+                        icon: 'fa-shield-alt' 
+                    },
+                    { 
+                        id: 'other', 
+                        name: 'अन्य निवेश', 
+                        defaultPercent: 10, 
+                        color: '#f39c12', 
+                        icon: 'fa-cubes' 
+                    }
+                ]
+            },
+            te: {
+                header: {
+                    title: "నెలవారీ జీతం పెట్టుబడి ప్లానర్",
+                    subtitle: "మీ నెలవారీ జీతాన్ని వివిధ పెట్టుబడి వర్గాల్లో ప్రణాళిక చేయండి మరియు కేటాయించండి"
+                },
+                labels: {
+                    allocationTitle: "పెట్టుబడి కేటాయింపు",
+                    salaryLabel: "నెలవారీ జీతం (USD)",
+                    percentageLabel: "పెట్టుబడి చేయడానికి శాతం (%)",
+                    calculateBtn: "పెట్టుబడిని లెక్కించండి",
+                    resetBtn: "రీసెట్ చేయండి",
+                    saveBtn: "ఈ ప్లాన్‌ను సేవ్ చేయండి",
+                    resultsTitle: "పెట్టుబడి ఫలితాలు",
+                    summarySalary: "నెలవారీ జీతం:",
+                    summaryInvestment: "పెట్టుబడి చేయడానికి మొత్తం:",
+                    summaryExpenses: "ఖర్చుల కోసం మొత్తం:",
+                    savedPlansTitle: "సేవ్ చేసిన పెట్టుబడి ప్రణాళికలు",
+                    noPlans: "ఇంకా సేవ్ చేసిన ప్లాన్‌లు లేవు. మీ మొదటి పెట్టుబడి ప్రణాళికను సృష్టించండి మరియు సేవ్ చేయండి!",
+                    footer: "© 2023 నెలవారీ జీతం పెట్టుబడి ప్లానర్ | ఆర్థిక ప్రణాళిక కోసం రూపొందించబడింది",
+                    disclaimer: "గమనిక: ఈ సాధనం విద్యా ప్రయోజనాల కోసం. వ్యక్తిగత పెట్టుబడి సలహా కోసం ఆర్థిక సలహాదారును సంప్రదించండి.",
+                    loadBtn: "లోడ్ చేయండి",
+                    deleteBtn: "తొలగించండి",
+                    planSaved: "పెట్టుబడి ప్రణాళిక విజయవంతంగా సేవ్ చేయబడింది",
+                    planLoaded: "ప్రణాళిక విజయవంతంగా లోడ్ చేయబడింది!",
+                    confirmDelete: "మీరు ఖచ్చితంగా ఈ ప్రణాళికను తొలగించాలనుకుంటున్నారా?",
+                    planNotFound: "ప్రణాళిక కనుగొనబడలేదు!"
+                },
+                categories: [
+                    { 
+                        id: 'stocks', 
+                        name: 'స్టాక్స్ & ETFs', 
+                        defaultPercent: 40, 
+                        color: '#3498db', 
+                        icon: 'fa-chart-line' 
+                    },
+                    { 
+                        id: 'bonds', 
+                        name: 'బాండ్లు & స్థిర ఆదాయం', 
+                        defaultPercent: 20, 
+                        color: '#9b59b6', 
+                        icon: 'fa-hand-holding-usd' 
+                    },
+                    { 
+                        id: 'savings', 
+                        name: 'హై-యీల్డ్ పొదుపు', 
+                        defaultPercent: 15, 
+                        color: '#2ecc71', 
+                        icon: 'fa-piggy-bank' 
+                    },
+                    { 
+                        id: 'emergency', 
+                        name: 'అత్యవసర నిధి', 
+                        defaultPercent: 15, 
+                        color: '#e74c3c', 
+                        icon: 'fa-shield-alt' 
+                    },
+                    { 
+                        id: 'other', 
+                        name: 'ఇతర పెట్టుబడులు', 
+                        defaultPercent: 10, 
+                        color: '#f39c12', 
+                        icon: 'fa-cubes' 
+                    }
+                ]
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'en';
+        
+        // DOM elements
+        const monthlySalaryInput = document.getElementById('monthlySalary');
+        const investmentPercentageInput = document.getElementById('investmentPercentage');
+        const investmentCategoriesDiv = document.getElementById('investmentCategories');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const summarySalary = document.getElementById('summarySalary');
+        const summaryInvestment = document.getElementById('summaryInvestment');
+        const summaryExpenses = document.getElementById('summaryExpenses');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const savedPlansList = document.getElementById('savedPlansList');
+        const noPlansMessage = document.getElementById('noPlansMessage');
+        const savedPlansSection = document.getElementById('savedPlansSection');
+        
+        // Chart variable
+        let investmentChart;
+        
+        // Initialize the app
+        function initApp() {
+            initializeLanguageSwitcher();
+            renderInvestmentCategories();
+            calculateInvestments();
+            loadSavedPlans();
+            
+            // Add event listeners
+            calculateBtn.addEventListener('click', calculateInvestments);
+            resetBtn.addEventListener('click', resetForm);
+            saveBtn.addEventListener('click', saveInvestmentPlan);
+            
+            // Add event listeners for salary and percentage inputs
+            monthlySalaryInput.addEventListener('input', calculateInvestments);
+            investmentPercentageInput.addEventListener('input', calculateInvestments);
+        }
+        
+        // Initialize language switcher
+        function initializeLanguageSwitcher() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    currentLanguage = lang;
+                    
+                    // Update active button
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update UI for new language
+                    updateUIForLanguage(lang);
+                    
+                    // Update text direction for RTL languages
+                    document.body.classList.remove('hindi-text', 'telugu-text');
+                    if (lang === 'hi') {
+                        document.body.classList.add('hindi-text');
+                    } else if (lang === 'te') {
+                        document.body.classList.add('telugu-text');
+                    }
+                });
+            });
+        }
+        
+        // Update UI for selected language
+        function updateUIForLanguage(lang) {
+            const content = contentDatabase[lang];
+            
+            // Update header
+            document.getElementById('header-title').textContent = content.header.title;
+            document.getElementById('header-subtitle').textContent = content.header.subtitle;
+            
+            // Update labels
+            document.getElementById('allocation-title').textContent = content.labels.allocationTitle;
+            document.getElementById('salary-label').textContent = content.labels.salaryLabel;
+            document.getElementById('percentage-label').textContent = content.labels.percentageLabel;
+            document.getElementById('calculate-text').textContent = content.labels.calculateBtn;
+            document.getElementById('reset-text').textContent = content.labels.resetBtn;
+            document.getElementById('save-text').textContent = content.labels.saveBtn;
+            document.getElementById('results-title').textContent = content.labels.resultsTitle;
+            document.getElementById('summary-salary-label').textContent = content.labels.summarySalary;
+            document.getElementById('summary-investment-label').textContent = content.labels.summaryInvestment;
+            document.getElementById('summary-expenses-label').textContent = content.labels.summaryExpenses;
+            document.getElementById('saved-plans-title').textContent = content.labels.savedPlansTitle;
+            document.getElementById('noPlansMessage').textContent = content.labels.noPlans;
+            document.getElementById('footer-text').textContent = content.labels.footer;
+            document.getElementById('disclaimer-text').textContent = content.labels.disclaimer;
+            
+            // Re-render investment categories with new language
+            renderInvestmentCategories();
+            calculateInvestments();
+        }
+        
+        // Render investment categories with sliders
+        function renderInvestmentCategories() {
+            investmentCategoriesDiv.innerHTML = '';
+            const categories = contentDatabase[currentLanguage].categories;
+            
+            categories.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'investment-category';
+                categoryDiv.innerHTML = `
+                    <div class="category-header">
+                        <div class="category-name">
+                            <i class="fas ${category.icon}"></i> ${category.name}
+                        </div>
+                        <div class="percentage-display">
+                            <span id="percent-${category.id}">${category.defaultPercent}</span>%
+                        </div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="slider-${category.id}" min="0" max="100" value="${category.defaultPercent}" class="percent-slider">
+                        <span>0%</span>
+                    </div>
+                `;
+                
+                investmentCategoriesDiv.appendChild(categoryDiv);
+                
+                // Add event listener to the slider
+                const slider = document.getElementById(slider-${category.id});
+                const percentDisplay = document.getElementById(percent-${category.id});
+                
+                slider.addEventListener('input', function() {
+                    percentDisplay.textContent = this.value;
+                    adjustOtherSliders(category.id, parseInt(this.value));
+                    calculateInvestments();
+                });
+            });
+        }
+        
+        // Adjust other sliders when one is changed to keep total at 100%
+        function adjustOtherSliders(changedId, newValue) {
+            const sliders = document.querySelectorAll('.percent-slider');
+            let total = 0;
+            let changedSlider;
+            
+            // Calculate current total and find the changed slider
+            sliders.forEach(slider => {
+                const sliderId = slider.id.replace('slider-', '');
+                if (sliderId === changedId) {
+                    changedSlider = slider;
+                    total += newValue;
+                } else {
+                    total += parseInt(slider.value);
+                }
+            });
+            
+            // If total is not 100%, adjust the other sliders proportionally
+            if (total !== 100) {
+                const difference = total - 100;
+                const adjustment = -difference;
+                
+                // Adjust other sliders proportionally
+                let adjustedTotal = 0;
+                sliders.forEach(slider => {
+                    const sliderId = slider.id.replace('slider-', '');
+                    if (sliderId !== changedId) {
+                        const currentValue = parseInt(slider.value);
+                        const proportion = currentValue / (100 - newValue);
+                        const adjustmentAmount = Math.round(adjustment * proportion);
+                        const newSliderValue = Math.max(0, Math.min(100, currentValue + adjustmentAmount));
+                        slider.value = newSliderValue;
+                        
+                        // Update the percentage display
+                        document.getElementById(percent-${sliderId}).textContent = newSliderValue;
+                        adjustedTotal += newSliderValue;
+                    }
+                });
+                
+                // Update changed slider to ensure total is exactly 100
+                changedSlider.value = 100 - adjustedTotal;
+                document.getElementById(percent-${changedId}).textContent = 100 - adjustedTotal;
+            }
+        }
+        
+        // Calculate investment allocations
+        function calculateInvestments() {
+            const monthlySalary = parseFloat(monthlySalaryInput.value) || 0;
+            const investmentPercent = parseFloat(investmentPercentageInput.value) || 0;
+            
+            // Calculate total amount to invest
+            const totalInvestment = monthlySalary * (investmentPercent / 100);
+            const expenses = monthlySalary - totalInvestment;
+            
+            // Update summary
+            summarySalary.textContent = $${monthlySalary.toLocaleString()};
+            summaryInvestment.textContent = $${totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })};
+            summaryExpenses.textContent = $${expenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })};
+            
+            // Clear previous results
+            resultsContainer.innerHTML = '';
+            
+            // Calculate and display results for each category
+            const categories = contentDatabase[currentLanguage].categories;
+            categories.forEach(category => {
+                const percentElement = document.getElementById(percent-${category.id});
+                const categoryPercent = parseFloat(percentElement.textContent) || 0;
+                const categoryAmount = totalInvestment * (categoryPercent / 100);
+                
+                // Create result card
+                const resultCard = document.createElement('div');
+                resultCard.className = result-card ${category.id};
+                resultCard.innerHTML = `
+                    <i class="fas ${category.icon} fa-2x" style="color: ${category.color}"></i>
+                    <div class="result-value">$${categoryAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <div class="result-label">${category.name}</div>
+                    <div class="result-label">${categoryPercent}% of investment</div>
+                `;
+                
+                resultsContainer.appendChild(resultCard);
+            });
+            
+            // Update the chart
+            updateChart(totalInvestment);
+        }
+        
+        // Update the pie chart
+        function updateChart(totalInvestment) {
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+            
+            // Prepare chart data
+            const labels = [];
+            const data = [];
+            const backgroundColors = [];
+            const categories = contentDatabase[currentLanguage].categories;
+            
+            categories.forEach(category => {
+                const percentElement = document.getElementById(percent-${category.id});
+                const categoryPercent = parseFloat(percentElement.textContent) || 0;
+                const categoryAmount = totalInvestment * (categoryPercent / 100);
+                
+                if (categoryPercent > 0) {
+                    labels.push(category.name);
+                    data.push(categoryAmount);
+                    backgroundColors.push(category.color);
+                }
+            });
+            
+            // Destroy existing chart if it exists
+            if (investmentChart) {
+                investmentChart.destroy();
+            }
+            
+            // Create new chart
+            investmentChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                    return ${label}: $${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${percentage}%);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Reset form to default values
+        function resetForm() {
+            monthlySalaryInput.value = 5000;
+            investmentPercentageInput.value = 30;
+            
+            const categories = contentDatabase[currentLanguage].categories;
+            categories.forEach(category => {
+                const slider = document.getElementById(slider-${category.id});
+                const percentDisplay = document.getElementById(percent-${category.id});
+                
+                slider.value = category.defaultPercent;
+                percentDisplay.textContent = category.defaultPercent;
+            });
+            
+            calculateInvestments();
+        }
+        
+        // Save investment plan to localStorage
+        function saveInvestmentPlan() {
+            const monthlySalary = parseFloat(monthlySalaryInput.value) || 0;
+            const investmentPercent = parseFloat(investmentPercentageInput.value) || 0;
+            
+            // Get category percentages
+            const categoryPercentages = {};
+            const categories = contentDatabase[currentLanguage].categories;
+            categories.forEach(category => {
+                const percentElement = document.getElementById(percent-${category.id});
+                categoryPercentages[category.id] = parseFloat(percentElement.textContent) || 0;
+            });
+            
+            // Create plan object
+            const plan = {
+                id: Date.now(),
+                name: ${contentDatabase[currentLanguage].labels.planSaved} ${new Date().toLocaleDateString()},
+                monthlySalary,
+                investmentPercent,
+                categoryPercentages,
+                date: new Date().toISOString(),
+                language: currentLanguage
+            };
+            
+            // Get existing plans from localStorage
+            let savedPlans = JSON.parse(localStorage.getItem('investmentPlans')) || [];
+            
+            // Add new plan
+            savedPlans.push(plan);
+            
+            // Save to localStorage
+            localStorage.setItem('investmentPlans', JSON.stringify(savedPlans));
+            
+            // Reload saved plans
+            loadSavedPlans();
+            
+            // Show confirmation
+            alert(${contentDatabase[currentLanguage].labels.planSaved} "${plan.name}");
+        }
+        
+        // Load saved plans from localStorage
+        function loadSavedPlans() {
+            const savedPlans = JSON.parse(localStorage.getItem('investmentPlans')) || [];
+            
+            // Clear the list
+            savedPlansList.innerHTML = '';
+            
+            if (savedPlans.length === 0) {
+                noPlansMessage.classList.remove('hidden');
+                savedPlansList.appendChild(noPlansMessage);
+                return;
+            }
+            
+            noPlansMessage.classList.add('hidden');
+            
+            // Display each saved plan
+            savedPlans.forEach(plan => {
+                const planElement = document.createElement('div');
+                planElement.className = 'plan-item';
+                
+                // Calculate total investment amount
+                const totalInvestment = plan.monthlySalary * (plan.investmentPercent / 100);
+                
+                planElement.innerHTML = `
+                    <div>
+                        <h3>${plan.name}</h3>
+                        <p>Salary: $${plan.monthlySalary.toLocaleString()} | Investment: ${plan.investmentPercent}% ($${totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</p>
+                        <p><small>Created: ${new Date(plan.date).toLocaleDateString()}</small></p>
+                    </div>
+                    <div class="plan-actions">
+                        <button class="load-plan-btn" data-id="${plan.id}">${contentDatabase[currentLanguage].labels.loadBtn}</button>
+                        <button class="delete-plan-btn" data-id="${plan.id}">${contentDatabase[currentLanguage].labels.deleteBtn}</button>
+                    </div>
+                `;
+                
+                savedPlansList.appendChild(planElement);
+            });
+            
+            // Add event listeners to load and delete buttons
+            document.querySelectorAll('.load-plan-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const planId = parseInt(this.getAttribute('data-id'));
+                    loadPlan(planId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-plan-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const planId = parseInt(this.getAttribute('data-id'));
+                    deletePlan(planId);
+                });
+            });
+            
+            // Show the saved plans section
+            savedPlansSection.classList.remove('hidden');
+        }
+        
+        // Load a specific plan
+        function loadPlan(planId) {
+            const savedPlans = JSON.parse(localStorage.getItem('investmentPlans')) || [];
+            const plan = savedPlans.find(p => p.id === planId);
+            
+            if (!plan) {
+                alert(contentDatabase[currentLanguage].labels.planNotFound);
+                return;
+            }
+            
+            // Load plan data into the form
+            monthlySalaryInput.value = plan.monthlySalary;
+            investmentPercentageInput.value = plan.investmentPercent;
+            
+            // Load category percentages
+            const categories = contentDatabase[currentLanguage].categories;
+            categories.forEach(category => {
+                const slider = document.getElementById(slider-${category.id});
+                const percentDisplay = document.getElementById(percent-${category.id});
+                
+                slider.value = plan.categoryPercentages[category.id] || 0;
+                percentDisplay.textContent = plan.categoryPercentages[category.id] || 0;
+            });
+            
+            // Recalculate investments
+            calculateInvestments();
+            
+            alert(${plan.name} ${contentDatabase[currentLanguage].labels.planLoaded});
+        }
+        
+        // Delete a specific plan
+        function deletePlan(planId) {
+            if (!confirm(contentDatabase[currentLanguage].labels.confirmDelete)) {
+                return;
+            }
+            
+            let savedPlans = JSON.parse(localStorage.getItem('investmentPlans')) || [];
+            savedPlans = savedPlans.filter(p => p.id !== planId);
+            
+            localStorage.setItem('investmentPlans', JSON.stringify(savedPlans));
+            loadSavedPlans();
+        }
+        
+        // Initialize the app when the page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
